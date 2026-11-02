@@ -1,0 +1,1 @@
+# mech5720-2026-Dynamic-Aperture-Using-LCD
