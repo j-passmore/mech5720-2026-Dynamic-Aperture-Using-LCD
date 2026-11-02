@@ -1,0 +1,8 @@
+# Ubuntu-System: server.py writes a folder per sequence to captures/ here (config.SESSIONS),
+# and camview_capture.py and capture_series.py download to Ubuntu-System/captures/
+/captures/
+Ubuntu-System/captures/
+Ubuntu-System/out/
+Ubuntu-System/imgui.ini
+__pycache__/
+.venv/
