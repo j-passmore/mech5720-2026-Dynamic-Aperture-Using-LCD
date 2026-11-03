@@ -1,0 +1,8 @@
+# flutter_deblur.py, flutter_score.py and flutter_figure.py
+#   pip install -r requirements.txt
+numpy
+scipy
+pillow
+rawpy
+opencv-python
+matplotlib

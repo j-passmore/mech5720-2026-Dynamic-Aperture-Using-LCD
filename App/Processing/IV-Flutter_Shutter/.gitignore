@@ -1,0 +1,5 @@
+# photos copied in for flutter_score.py's default --dir, and what the scripts write
+captures/
+out/
+__pycache__/
+.venv/
