@@ -1,0 +1,3 @@
+# the figures and GIFs the processing scripts write; rerun the scripts to make them
+Out/**/*.png
+Out/**/*.gif
