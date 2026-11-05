@@ -1,0 +1,10 @@
+# the figures and GIFs the processing scripts write. Rerun the scripts to make them
+Out/**/*.png
+Out/**/*.gif
+# except the ones the READMEs show
+!Out/Flutter_Shutter/flutter_front_95.png
+!Out/Flutter_Shutter/flutter_inside_95.png
+!Out/Custom_Bokeh/bokeh_sprites.png
+!Out/Custom_Bokeh/bokeh_masks.png
+!Out/Custom_Bokeh/mario_outside_lens.gif
+!Out/Custom_Bokeh/mario_inside_lens.gif

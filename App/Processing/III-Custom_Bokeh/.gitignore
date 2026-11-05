@@ -1,0 +1,4 @@
+# what the script writes besides Out/Custom_Bokeh/
+out/
+__pycache__/
+.venv/
