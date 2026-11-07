@@ -14,3 +14,5 @@ Out/**/settings.json
 !Out/Custom_Bokeh/mario_inside_lens.gif
 !Out/Flutter_Shutter/flutter_front_95_f11.png
 !Out/Post_Capture_Reconstruction/all_in_focus.png
+!Out/Depth_Estimation/pixel_by_pixel_method/depth_heatmap.png
+!Out/Depth_Estimation/pixel_by_pixel_method/depth_map.png

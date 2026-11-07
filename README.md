@@ -340,7 +340,10 @@ cd App/Processing/I-Depth_Estimation
 | --- | --- |
 | The PSF pair at each distance | `calibration/psf_pairs.png` |
 | The spectra of each PSF pair | `calibration/psf_fourier.png` |
-| The pixel by pixel depth map | `pixel_by_pixel_method/depth_heatmap.png` |
+| The pixel by pixel key figure: the photo, the depth map, the confident pixels and the all-in-focus image | `pixel_by_pixel_method/depth_heatmap.png` |
+| The pixel by pixel depth map on its own | `pixel_by_pixel_method/depth_map.png` |
+| The confident pixels on their own | `pixel_by_pixel_method/depth_map_confident.png` |
+| The mask 1 photo on its own | `pixel_by_pixel_method/captured_mask1.png` |
 | The vertical strip depth map | `vertical_strip_method/depth_steps.png` |
 
 ### II. Post-capture reconstruction
