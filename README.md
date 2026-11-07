@@ -1,4 +1,46 @@
-# MECH5720 2026: Dynamic Aperture Control with a Transmissive Liquid Crystal Display
+<div align="center">
+
+# Dynamic Aperture Control with a Transmissive Liquid Crystal Display
+
+**A programmable aperture and coded shutter for a Canon EOS 60D, built from a 1.8 inch LCD
+panel and an Arduino Uno.**
+
+MECH5720 Computational Imaging · The University of Sydney · 2026
+
+[![Python 3](https://img.shields.io/badge/Python-3-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Arduino Uno R3](https://img.shields.io/badge/Arduino-Uno%20R3-00878F?style=for-the-badge)](App/Capturing/Ubuntu-System/arduino/aperture_panel)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](#laptop-setup)
+[![Canon EOS 60D](https://img.shields.io/badge/Canon-EOS%2060D-CC0000?style=for-the-badge)](#camera-setup)
+[![gphoto2](https://img.shields.io/badge/gphoto2-tethered-4B8BBE?style=for-the-badge)](http://www.gphoto.org/)
+[![Licence: MIT](https://img.shields.io/badge/Licence-MIT-F7DF1E?style=for-the-badge)](LICENSE)
+
+[![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)](https://numpy.org/)
+[![SciPy](https://img.shields.io/badge/SciPy-8CAAE6?style=flat-square&logo=scipy&logoColor=white)](https://scipy.org/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white)](https://opencv.org/)
+[![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=flat-square)](https://matplotlib.org/)
+[![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Last commit](https://img.shields.io/github/last-commit/j-passmore/mech5720-2026-Dynamic-Aperture-Using-LCD?style=flat-square)](https://github.com/j-passmore/mech5720-2026-Dynamic-Aperture-Using-LCD/commits/main)
+
+[Layout](#repository-layout) · [Parts](#parts-list) · [Build](#build) · [Setup](#laptop-setup) ·
+[Capture](#capture-procedure) · [Figures](#regenerating-the-figures) · [Pitfalls](#known-pitfalls)
+
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="Out/Custom_Bokeh/mario_outside_lens.gif" alt="Out-of-focus lights shaped like a walking sprite, LCD in front of the lens"></td>
+    <td align="center" width="50%"><img src="Out/Custom_Bokeh/mario_inside_lens.gif" alt="Out-of-focus lights shaped like a walking sprite, LCD behind the lens"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>LCD in front of the lens, 9.5 mm pupil</sub></td>
+    <td align="center"><sub>LCD behind the lens, 5.5 mm pupil</sub></td>
+  </tr>
+</table>
+
+<sub>The panel plays a walk cycle, one photo per frame. Every out-of-focus light behind the
+subject takes the shape of the frame on the panel.</sub>
+
+</div>
+
+## Overview
 
 A small liquid crystal display (LCD) sits in the light path of a Canon EOS 60D and acts as a
 programmable aperture. An Arduino draws black and clear patterns on the panel. Each pattern
@@ -9,6 +51,13 @@ One Ubuntu laptop runs the panel and the camera. The group used the rig for four
 depth estimation, post-capture refocus, custom bokeh and the flutter shutter. This page is the
 build guide. The folder READMEs hold the detail: the capture app's manual and each experiment's
 processing.
+
+| Experiment | What the panel does | Status |
+| --- | --- | --- |
+| [Depth estimation](#depth-estimation) | Shows the coded aperture pair of Zhou, Lin and Nayar. | ![In progress](https://img.shields.io/badge/in%20progress-F0AD4E?style=flat-square) |
+| [Post-capture refocus](#post-capture-refocus) | Opens one tile of the aperture per photo in a 3x3 or 5x5 scan. | ![In progress](https://img.shields.io/badge/in%20progress-F0AD4E?style=flat-square) |
+| [Custom bokeh](#custom-bokeh) | Draws the shape every out-of-focus light takes. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
+| [Flutter shutter](#flutter-shutter) | Plays a 32-chop binary code inside one exposure. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
 
 ## Repository layout
 
@@ -37,13 +86,16 @@ processing.
 | Toy car with "95" on its side | The car is the moving target for the flutter shutter. | |
 | String of small lights | The lights are the out-of-focus highlights for the custom bokeh. | |
 
-![The JJC AET-C25 extension tube in its box](Hardware-Modifications/images/extension_tube_jjc_aet_c25.jpg)
-
-*The JJC AET-C25 extension tube, 25 mm, for Canon EF and EF-S lenses.*
-
-![The Adafruit 358 panel beside its bag](Hardware-Modifications/images/panel_adafruit_358.jpg)
-
-*The Adafruit 358 panel, 1.8 inch and 128 x 160 pixels, as shipped.*
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="Hardware-Modifications/images/extension_tube_jjc_aet_c25.jpg" alt="The JJC AET-C25 extension tube in its box"></td>
+    <td align="center" width="50%"><img src="Hardware-Modifications/images/panel_adafruit_358.jpg" alt="The Adafruit 358 panel beside its bag"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>The JJC AET-C25 extension tube, 25 mm, for Canon EF and EF-S lenses.</sub></td>
+    <td align="center"><sub>The Adafruit 358 panel, 1.8 inch and 128 x 160 pixels, as shipped.</sub></td>
+  </tr>
+</table>
 
 ## Build
 
@@ -70,7 +122,7 @@ processing.
    [aperture_panel.ino](App/Capturing/Ubuntu-System/arduino/aperture_panel/aperture_panel.ino).
    The command line does the same:
 
-   ```
+   ```bash
    cd App/Capturing/Ubuntu-System
    arduino-cli lib install "Adafruit GFX Library" "Adafruit ST7735 and ST7789 Library"
    arduino-cli core install arduino:avr
@@ -90,9 +142,9 @@ processing.
 
 ## Laptop setup
 
-Run these commands once. Log out and back in afterwards so the `dialout` group takes effect.
+Run these commands once.
 
-```
+```bash
 cd App/Capturing/Ubuntu-System
 ./setup_laptop.sh
 python3 -m venv .venv
@@ -105,12 +157,15 @@ chmod +x ~/.local/bin/dnglab
 [setup_laptop.sh](App/Capturing/Ubuntu-System/setup_laptop.sh) installs gphoto2, adds you to
 `dialout` and removes three services that fight the rig for its devices. Known pitfalls says
 which. dnglab turns each CR2 into a DNG for the Lab 3 MATLAB scripts, losslessly. `SAVE_DNG =
-False` in `config.py` turns the DNGs off. Until the next login the shell is not in `dialout`.
-Run the server under the group in the meantime:
+False` in `config.py` turns the DNGs off.
 
-```
-sg dialout -c ".venv/bin/python server.py --display arduino --camera gphoto"
-```
+> [!NOTE]
+> Log out and back in after setup so the `dialout` group takes effect. Until the next login the
+> shell is not in `dialout`. Run the server under the group in the meantime:
+>
+> ```bash
+> sg dialout -c ".venv/bin/python server.py --display arduino --camera gphoto"
+> ```
 
 ## Camera setup
 
@@ -119,7 +174,7 @@ stop. Set the quality to RAW+JPEG on the body. Turn off auto power off and long 
 reduction in the menu. Plug the USB cable into the laptop and check that the laptop sees the
 camera:
 
-```
+```bash
 gphoto2 --auto-detect
 gphoto2 --capture-image-and-download
 ```
@@ -129,7 +184,7 @@ gphoto2 --capture-image-and-download
 The rig runs in two terminals, both in `App/Capturing/Ubuntu-System/` with the venv active.
 Start the server first:
 
-```
+```bash
 cd App/Capturing/Ubuntu-System
 source .venv/bin/activate
 python server.py --display arduino --camera gphoto
@@ -138,7 +193,7 @@ python server.py --display arduino --camera gphoto
 The server prints `display=arduino camera=gphoto pupil 27.8 mm = 126.8 px` once the panel and
 the camera are both up. Check the panel from the second terminal before the first run:
 
-```
+```bash
 python show.py white --backend arduino
 python show.py scan0 --backend arduino
 ```
@@ -151,14 +206,17 @@ python show.py scan0 --backend arduino
 
 Start the window in the second terminal:
 
-```
+```bash
 python camview_capture.py --outdir captures
 ```
 
 The window shows the camera's live view, the image on the panel, the controls and one tab per
-experiment. Tick Live view to frame the scene and untick it before a run, because it drains the
-camera battery. [The app manual](App/Capturing/Ubuntu-System/README.md) describes every control,
+experiment. [The app manual](App/Capturing/Ubuntu-System/README.md) describes every control,
 pattern and file.
+
+> [!TIP]
+> Tick Live view to frame the scene and untick it before a run, because it drains the camera
+> battery.
 
 ## Capture procedure
 
@@ -202,7 +260,7 @@ group used, each a transparent character on black.
 4. Pick a sprite frame or GIF with Browse... or type a mask name. Press Capture and save. The
    command line runs a list:
 
-   ```
+   ```bash
    python capture_series.py --patterns open sprites/binary/mario/mario_binary_walk.gif open --label mario --outdir captures/bokeh --diameter 9.5
    python capture_series.py --patterns open levin nayar zhou_a zhou_b open --label masks --outdir captures/bokeh --diameter 9.5
    ```
@@ -230,7 +288,7 @@ the shutter closes.
 
 The command line takes one coded photo at a time at the shutter speed set on M:
 
-```
+```bash
 python capture_series.py --code designed --chop 100 --no-capture --label switch --outdir captures/flutter
 python capture_series.py --code designed --chop 100 --label coded --outdir captures/flutter
 ```
@@ -241,7 +299,7 @@ Each processing folder has a script that redraws its figures from the raw photos
 into `Out/`. Set up each folder's venv once with `python3 -m venv .venv` and
 `.venv/bin/pip install -r requirements.txt`, then:
 
-```
+```bash
 cd App/Processing/IV-Flutter_Shutter && .venv/bin/python flutter_figure.py     # two minutes
 cd App/Processing/III-Custom_Bokeh && .venv/bin/python bokeh_figure.py          # half a minute
 ```
@@ -258,10 +316,10 @@ tube](Out/Flutter_Shutter/flutter_inside_95.png)
 *The same three light levels with the LCD inside the extension tube.*
 
 ![Seven sprite frames on the panel and the lights they shaped, with the panel in front of the
-lens and inside the extension tube](Out/Custom_Bokeh/bokeh_sprites.png)
+lens and behind the lens](Out/Custom_Bokeh/bokeh_sprites.png)
 
 *Seven sprite frames as the panel showed them and the lights they shaped, in front of the lens
-at a 9.5 mm pupil and inside the tube at 5.5 mm. The mesh in every light is the panel's pixel
+at a 9.5 mm pupil and behind the lens at 5.5 mm. The mesh in every light is the panel's pixel
 grid.*
 
 ![The Levin, Nayar and Zhou masks on the panel and the lights they
@@ -303,3 +361,22 @@ the blur lengths and the numbers.
   photo by about 5 percent. The scripts read the CR2 instead.
 - **The server** refuses a board on another protocol version. Upload the sketch again after
   every pull that changes it.
+
+## References
+
+1. R. Raskar, A. Agrawal and J. Tumblin, "Coded exposure photography: motion deblurring using
+   fluttered shutter," *ACM Trans. Graph.*, vol. 25, no. 3, pp. 795-804, 2006.
+   [doi:10.1145/1141911.1141957](https://doi.org/10.1145/1141911.1141957)
+2. C. Zhou, S. Lin and S. K. Nayar, "Coded aperture pairs for depth from defocus," in *Proc.
+   IEEE ICCV*, 2009, pp. 325-332.
+   [doi:10.1109/ICCV.2009.5459268](https://doi.org/10.1109/ICCV.2009.5459268)
+3. A. Levin, R. Fergus, F. Durand and W. T. Freeman, "Image and depth from a conventional camera
+   with a coded aperture," *ACM Trans. Graph.*, vol. 26, no. 3, art. 70, 2007.
+   [doi:10.1145/1276377.1276464](https://doi.org/10.1145/1276377.1276464)
+4. H. Nagahara, C. Zhou, T. Watanabe, H. Ishiguro and S. K. Nayar, "Programmable aperture
+   camera using LCoS," in *Proc. ECCV*, LNCS vol. 6316, 2010, pp. 337-350.
+   [doi:10.1007/978-3-642-15567-3_25](https://doi.org/10.1007/978-3-642-15567-3_25)
+
+## Licence
+
+The [MIT Licence](LICENSE) covers this repository.
