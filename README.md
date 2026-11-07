@@ -82,7 +82,7 @@ processing.
 | [App/Processing/II-Post_Capture_Reconstruction](App/Processing/II-Post_Capture_Reconstruction) | The folder holds the scripts that recover an all-in-focus image with each depth method, with [their README](App/Processing/II-Post_Capture_Reconstruction/README.md). |
 | [App/Processing/III-Custom_Bokeh](App/Processing/III-Custom_Bokeh) | The folder holds the script that draws the bokeh figures and GIFs, with [its README](App/Processing/III-Custom_Bokeh/README.md). |
 | [App/Processing/IV-Flutter_Shutter](App/Processing/IV-Flutter_Shutter) | The folder holds the scripts that deblur and score the flutter photos and draw the key figures, with [their README](App/Processing/IV-Flutter_Shutter/README.md). |
-| [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The depth and reconstruction scripts share `Captures/Depth_Estimation_and_Reconstruction/`. The group has yet to add its photos. |
+| [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The depth and reconstruction scripts share `Captures/Depth_Estimation_and_Reconstruction/`. It holds the scene pair so far. The group has yet to add the dark frames and PSF photos. |
 | [Out](Out) | The folder holds what the scripts write in one subfolder per experiment. |
 | [Hardware-Modifications](Hardware-Modifications) | The folder holds photos of the parts. |
 
@@ -359,8 +359,8 @@ cd App/Processing/II-Post_Capture_Reconstruction
 | The all-in-focus image from the pixel by pixel depth map | `pixel_by_pixel_method/all_in_focus.png` |
 | The all-in-focus image from the vertical strip depth map | `vertical_strip_method/all_in_focus.png` |
 
-The group has yet to add the depth photos. The depth and reconstruction blocks fail until they
-arrive.
+The folder holds the scene pair so far. The group has yet to add the dark frames and PSF photos
+that `calibrate.py` needs. The depth and reconstruction blocks fail until they arrive.
 
 ### III. Custom bokeh
 
