@@ -1,0 +1,7 @@
+# calibrate.py, psf_fourier.py and both estimate_depth.py scripts
+#   pip install -r requirements.txt
+numpy
+scipy
+pillow
+rawpy
+matplotlib
