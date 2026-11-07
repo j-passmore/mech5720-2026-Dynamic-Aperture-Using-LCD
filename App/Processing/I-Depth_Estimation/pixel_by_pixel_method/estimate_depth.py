@@ -55,7 +55,7 @@ OUTPUT = OUT_DEPTH / "pixel_by_pixel_method"
 def main():
     ap = argparse.ArgumentParser(description="Coded-aperture-pair depth estimation.")
     ap.add_argument("--scene-dir", default=SCENE_DIR,
-                    help="Folder in Captures/Depth_Estimation/ with mask1/mask2 RAWs")
+                    help="Folder in Captures/Depth_Estimation_and_Reconstruction/ with mask1/mask2 RAWs")
     ap.add_argument("--downsample", type=int, default=2, help="Processing downsample factor")
     ap.add_argument("--lam", type=float, default=0.3,
                     help="Noise-to-signal weight of the image prior (selftest.py best: 0.1-1)")

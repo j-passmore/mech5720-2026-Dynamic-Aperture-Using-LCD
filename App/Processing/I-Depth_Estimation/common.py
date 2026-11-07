@@ -23,18 +23,18 @@ from PIL import Image
 # both reconstruction methods import it, so every script reads the same photos
 # and the same calibration.
 REPO = Path(__file__).resolve().parents[3]
-CAPTURES = REPO / "Captures" / "Depth_Estimation"
+CAPTURES = REPO / "Captures" / "Depth_Estimation_and_Reconstruction"
 OUT_DEPTH = REPO / "Out" / "Depth_Estimation"
 OUT_RECONSTRUCTION = REPO / "Out" / "Post_Capture_Reconstruction"
 OUTPUT = OUT_DEPTH / "calibration"          # calibrate.py and psf_fourier.py write here
 DISTANCES_FILE = CAPTURES / "distances.yaml"
 
-# ---- Calibration inputs (relative to Captures/Depth_Estimation/) -----------
+# ---- Calibration inputs (relative to CAPTURES) -----------------------------
 DARK_GLOB = "fpn/d*.CR2"                    # lens-cap dark frames
 PSF_DIR = "Scale_1/psfs"
 PSF_NAME = "mask{mask}_psf{index}.CR2"      # mask = 1 or 2, index = psfN in distances.yaml
 
-# ---- Scene inputs (relative to Captures/Depth_Estimation/) -----------------
+# ---- Scene inputs (relative to CAPTURES) ----------------------------------
 SCENE_DIR = "Scale_1"
 SCENE_NAME = "mask{mask}.CR2"
 

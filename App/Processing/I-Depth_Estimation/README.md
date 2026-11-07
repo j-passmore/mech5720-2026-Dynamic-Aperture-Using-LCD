@@ -1,7 +1,7 @@
 # Depth estimation processing
 
 These scripts turn the coded aperture photos in
-[Captures/Depth_Estimation](../../../Captures/Depth_Estimation) into depth maps in
+[Captures/Depth_Estimation_and_Reconstruction](../../../Captures/Depth_Estimation_and_Reconstruction) into depth maps in
 [Out/Depth_Estimation](../../../Out/Depth_Estimation). The [root README](../../../README.md) has the
 capture procedure. Set up the venv once:
 
@@ -47,7 +47,7 @@ location. You can run it from any folder:
 
 ## The photos
 
-`Captures/Depth_Estimation/` keeps the folder layout of the capture laptop. The scripts read
+`Captures/Depth_Estimation_and_Reconstruction/` keeps the folder layout of the capture laptop. The scripts read
 these files:
 
 | Path | Photos |

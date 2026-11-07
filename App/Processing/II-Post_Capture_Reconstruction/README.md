@@ -14,7 +14,7 @@ python3 -m venv .venv
 Run `calibrate.py` in [I-Depth_Estimation](../I-Depth_Estimation) once before either script. Both
 scripts import `common.py` and `dfd.py` from that folder. Each script reads the depth map of its
 method from `Out/Depth_Estimation/`. It runs the depth script of that method first when the depth
-map is missing. The photos sit in [Captures/Depth_Estimation](../../../Captures/Depth_Estimation).
+map is missing. The photos sit in [Captures/Depth_Estimation_and_Reconstruction](../../../Captures/Depth_Estimation_and_Reconstruction).
 [The depth README](../I-Depth_Estimation/README.md) lists them.
 
 | Script | Reads from `Out/Depth_Estimation/` | Writes to `Out/Post_Capture_Reconstruction/` |

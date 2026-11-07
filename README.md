@@ -82,7 +82,7 @@ processing.
 | [App/Processing/II-Post_Capture_Reconstruction](App/Processing/II-Post_Capture_Reconstruction) | The folder holds the scripts that recover an all-in-focus image with each depth method, with [their README](App/Processing/II-Post_Capture_Reconstruction/README.md). |
 | [App/Processing/III-Custom_Bokeh](App/Processing/III-Custom_Bokeh) | The folder holds the script that draws the bokeh figures and GIFs, with [its README](App/Processing/III-Custom_Bokeh/README.md). |
 | [App/Processing/IV-Flutter_Shutter](App/Processing/IV-Flutter_Shutter) | The folder holds the scripts that deblur and score the flutter photos and draw the key figures, with [their README](App/Processing/IV-Flutter_Shutter/README.md). |
-| [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The depth and reconstruction scripts share `Captures/Depth_Estimation/`. The group has yet to add its photos. |
+| [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The depth and reconstruction scripts share `Captures/Depth_Estimation_and_Reconstruction/`. The group has yet to add its photos. |
 | [Out](Out) | The folder holds what the scripts write in one subfolder per experiment. |
 | [Hardware-Modifications](Hardware-Modifications) | The folder holds photos of the parts. |
 
