@@ -310,33 +310,74 @@ python capture_series.py --code designed --chop 100 --label coded --outdir captu
 
 ## Regenerating the figures
 
-Each processing folder has a script that redraws its figures from the raw photos in `Captures/`
-into `Out/`. Set up each folder's venv once with `python3 -m venv .venv` and
-`.venv/bin/pip install -r requirements.txt`. Run the scripts from the repository root:
+Each experiment has a processing folder that turns its raw photos in `Captures/` into its main
+results in `Out/`. Set up the venv of each folder once:
 
 ```bash
-(cd App/Processing/IV-Flutter_Shutter && .venv/bin/python flutter_figure.py)   # two minutes
-(cd App/Processing/III-Custom_Bokeh && .venv/bin/python bokeh_figure.py)        # half a minute
-(cd App/Processing/I-Depth_Estimation && .venv/bin/python calibrate.py && .venv/bin/python psf_fourier.py)
-(cd App/Processing/II-Post_Capture_Reconstruction && .venv/bin/python pixel_by_pixel_method/reconstruct.py && .venv/bin/python vertical_strip_method/reconstruct.py)
+cd App/Processing/<folder>
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
 ```
 
-Each reconstruction script runs its depth method first when that method has no depth map yet. On
-a fresh clone the last line draws both depth maps as well. The depth and reconstruction lines need
-the depth photos, which the group has yet to add.
+Each block below starts from the repository root. Every script finds `Captures/` and `Out/` from
+its own location. The folder READMEs hold the detail of each method.
 
-![The "95" on the toy car, coded, deblurred and reference, at f/5.6, f/11 and f/22 with the LCD
-in front of the lens](Out/Flutter_Shutter/flutter_front_95.png)
+### I. Depth estimation
 
-*In the key figure each column holds the coded photo, its deblur and the still reference at one
-light level. The LCD sits in front of the lens. The deblur at f/11 scores MSE 0.00122 against
-the reference.*
+The scripts read the dark frames, the PSFs and the scene pairs in
+[Captures/Depth_Estimation_and_Reconstruction](Captures/Depth_Estimation_and_Reconstruction).
+`calibrate.py` runs first since both methods use its PSF pairs.
 
-![The same at f/5.6, f/11 and f/22 with the LCD inside the extension
-tube](Out/Flutter_Shutter/flutter_inside_95.png)
+```bash
+cd App/Processing/I-Depth_Estimation
+.venv/bin/python calibrate.py
+.venv/bin/python psf_fourier.py
+.venv/bin/python pixel_by_pixel_method/estimate_depth.py
+.venv/bin/python vertical_strip_method/estimate_depth.py
+```
 
-*The second flutter figure repeats the three light levels with the LCD inside the extension
-tube.*
+| Result | File in `Out/Depth_Estimation/` |
+| --- | --- |
+| The PSF pair at each distance | `calibration/psf_pairs.png` |
+| The spectra of each PSF pair | `calibration/psf_fourier.png` |
+| The pixel by pixel depth map | `pixel_by_pixel_method/depth_heatmap.png` |
+| The vertical strip depth map | `vertical_strip_method/depth_steps.png` |
+
+### II. Post-capture reconstruction
+
+The scripts read the same photos as depth estimation. They also read the depth map of each method.
+Run the depth estimation block first.
+
+```bash
+cd App/Processing/II-Post_Capture_Reconstruction
+.venv/bin/python pixel_by_pixel_method/reconstruct.py
+.venv/bin/python vertical_strip_method/reconstruct.py
+```
+
+| Result | File in `Out/Post_Capture_Reconstruction/` |
+| --- | --- |
+| The all-in-focus image from the pixel by pixel depth map | `pixel_by_pixel_method/all_in_focus.png` |
+| The all-in-focus image from the vertical strip depth map | `vertical_strip_method/all_in_focus.png` |
+
+The group has yet to add the depth photos. The depth and reconstruction blocks fail until they
+arrive.
+
+### III. Custom bokeh
+
+The script reads the raw photos in [Captures/Custom_Bokeh](Captures/Custom_Bokeh). It takes about
+half a minute.
+
+```bash
+cd App/Processing/III-Custom_Bokeh
+.venv/bin/python bokeh_figure.py
+```
+
+| Result | File in `Out/Custom_Bokeh/` |
+| --- | --- |
+| The sprite frames and the lights they shaped | `bokeh_sprites.png` |
+| The masks and the lights they shaped | `bokeh_masks.png` |
+| The walk cycle as the lights show it | `<character>_outside_lens.gif` and `<character>_inside_lens.gif` |
+| The mesh pitch in each photo | `highlights.csv` |
 
 ![Seven sprite frames on the panel and the lights they shaped, with the panel in front of the
 lens and behind the lens](Out/Custom_Bokeh/bokeh_sprites.png)
@@ -350,10 +391,34 @@ shaped](Out/Custom_Bokeh/bokeh_masks.png)
 
 *The four masks follow the same layout.*
 
-The flutter script prints the MSE of each deblur. All six match the scores the group saved. The
-bokeh script also writes one GIF per character and panel position, which plays the walk as the
-lights show it. It writes a table of the mesh pitch in each photo too. The two folder READMEs list
-the runs, the blur lengths and the mesh pitches.
+### IV. Flutter shutter
+
+The script reads the reference and coded photos of six runs in
+[Captures/Flutter_Shutter](Captures/Flutter_Shutter). It takes about two minutes. It prints the MSE
+of each deblur. All six match the scores the group saved.
+
+```bash
+cd App/Processing/IV-Flutter_Shutter
+.venv/bin/python flutter_figure.py
+```
+
+| Result | File in `Out/Flutter_Shutter/` |
+| --- | --- |
+| The key figure with the LCD in front of the lens | `flutter_front_95.png` |
+| The same with the LCD inside the extension tube | `flutter_inside_95.png` |
+
+![The "95" on the toy car, coded, deblurred and reference, at f/5.6, f/11 and f/22 with the LCD
+in front of the lens](Out/Flutter_Shutter/flutter_front_95.png)
+
+*In the key figure each column holds the coded photo, its deblur and the still reference at one
+light level. The LCD sits in front of the lens. The deblur at f/11 scores MSE 0.00122 against
+the reference.*
+
+![The same at f/5.6, f/11 and f/22 with the LCD inside the extension
+tube](Out/Flutter_Shutter/flutter_inside_95.png)
+
+*The second flutter figure repeats the three light levels with the LCD inside the extension
+tube.*
 
 ## Known pitfalls
 
