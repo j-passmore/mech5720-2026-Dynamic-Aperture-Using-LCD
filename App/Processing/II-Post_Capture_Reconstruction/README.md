@@ -19,8 +19,8 @@ map is missing. The photos sit in [Captures/Depth_Estimation_and_Reconstruction]
 
 | Script | Reads from `Out/Depth_Estimation/` | Writes to `Out/Post_Capture_Reconstruction/` |
 | --- | --- | --- |
-| [pixel_by_pixel_method/reconstruct.py](pixel_by_pixel_method/reconstruct.py) | `pixel_by_pixel_method/depth_mm.npy` and `settings.json` | `pixel_by_pixel_method/all_in_focus.png` |
-| [vertical_strip_method/reconstruct.py](vertical_strip_method/reconstruct.py) | `vertical_strip_method/depth_mm.npy` | `vertical_strip_method/all_in_focus.png` |
+| [pixel_by_pixel_method/reconstruct.py](pixel_by_pixel_method/reconstruct.py) | `pixel_by_pixel_method/depth_mm.npy` and `settings.json` | `pixel_by_pixel_method/reconstruction_comparison.png` and `all_in_focus.png` |
+| [vertical_strip_method/reconstruct.py](vertical_strip_method/reconstruct.py) | `vertical_strip_method/depth_mm.npy` | `vertical_strip_method/reconstruction_comparison.png` and `all_in_focus.png` |
 
 ## How the reconstruction works
 
