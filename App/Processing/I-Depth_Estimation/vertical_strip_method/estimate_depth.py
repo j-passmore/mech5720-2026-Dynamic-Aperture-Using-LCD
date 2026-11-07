@@ -1,16 +1,21 @@
 # How to use:
-# 1. Copy common.py and dfd.py from another depth method into this folder.
-# 2. Change SCENE below to the capture folder you want to use.
+# 1. Run calibrate.py in App/Processing/I-Depth_Estimation/ once.
+# 2. Change SCENE below to the capture folder in Captures/Depth_Estimation/
+#    you want to use.
 # 3. Run: python estimate_depth.py
-# 4. The depth map and two pictures are saved in
-#    I-Depth_Estimation/vertical_strip_method/output/.
-# 5. Copy output/depth_mm.npy into
-#    II-Post_Capture_Reconstruction/vertical_strip_method/, next to reconstruct.py.
+# 4. The script saves the depth map and two pictures in
+#    Out/Depth_Estimation/vertical_strip_method/.
+#    II-Post_Capture_Reconstruction/vertical_strip_method/reconstruct.py reads
+#    depth_mm.npy from there.
 #
 # Each window picks a depth. Each vertical strip uses its most common window depth.
 # Then nearby strong image edges are used to move the boundaries between depths.
 
+import sys
 from pathlib import Path
+
+# The shared code (common.py and dfd.py) sits one folder up.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import matplotlib
 matplotlib.use("Agg")
@@ -22,7 +27,7 @@ from scipy import ndimage as ndi
 from scipy.signal import find_peaks
 
 import dfd
-from common import (CAPTURES, CALIBRATION_FILE, MASTER_DARK_FILE,
+from common import (CAPTURES, CALIBRATION_FILE, MASTER_DARK_FILE, OUT_DEPTH,
                     SCENE_NAME, downsample, load_green, to_display)
 
 SCENE = "Scale_1/pair2"
@@ -31,7 +36,7 @@ WINDOW = 448
 X_STRIDE = 96
 Y_STRIDE = 256
 EDGE_RADIUS = 450  # How far a boundary can move toward a strong image edge.
-OUTPUT = Path(__file__).resolve().parent / "output"
+OUTPUT = OUT_DEPTH / "vertical_strip_method"
 
 
 def window_positions(length, step):
@@ -226,7 +231,7 @@ def main():
     windows, x_edges, y_edges, combined, corrected = estimate_depth(
         image1, image2, psfs, distances)
 
-    OUTPUT.mkdir(exist_ok=True)
+    OUTPUT.mkdir(parents=True, exist_ok=True)
     depth_map = np.broadcast_to(distances[corrected][None, :], image1.shape).copy()
     np.save(OUTPUT / "depth_mm.npy", depth_map)
 

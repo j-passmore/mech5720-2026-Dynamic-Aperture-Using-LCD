@@ -1,0 +1,7 @@
+# both reconstruct.py scripts, which import common.py and dfd.py from I-Depth_Estimation
+#   pip install -r requirements.txt
+numpy
+scipy
+pillow
+rawpy
+matplotlib

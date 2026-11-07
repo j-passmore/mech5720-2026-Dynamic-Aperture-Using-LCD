@@ -4,5 +4,7 @@
 Ubuntu-System/captures/
 Ubuntu-System/out/
 Ubuntu-System/imgui.ini
+# Windows-System: capture_photo.py saves each CR2 and JPEG to Windows-System/captures/
+Windows-System/captures/
 __pycache__/
 .venv/
