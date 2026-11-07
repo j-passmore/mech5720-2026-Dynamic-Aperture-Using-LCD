@@ -16,3 +16,4 @@ Out/**/settings.json
 !Out/Post_Capture_Reconstruction/all_in_focus.png
 !Out/Depth_Estimation/pixel_by_pixel_method/depth_heatmap.png
 !Out/Depth_Estimation/pixel_by_pixel_method/depth_map.png
+!Out/Post_Capture_Reconstruction/vertical_strip_method/reconstruction_comparison.png

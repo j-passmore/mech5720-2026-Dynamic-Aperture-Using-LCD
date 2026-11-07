@@ -95,3 +95,17 @@ def to_display(img, pct=99.5, gamma=1 / 2.2):
     """Linear image -> 0..1 with a percentile white point and display gamma."""
     hi = np.percentile(img, pct)
     return np.clip(img / hi, 0, 1) ** gamma if hi > 0 else np.zeros_like(img)
+
+
+def save_comparison(before, after, path):
+    """Save the mask 1 photo and its reconstruction side by side at 2340 x 900 px.
+    Both reconstruction scripts call this, so both methods draw the same figure."""
+    import matplotlib.pyplot as plt
+    fig, axes = plt.subplots(1, 2, figsize=(13, 5), layout="constrained")
+    for ax, img, title in zip(axes, (before, after),
+                              ("Before reconstruction", "After reconstruction")):
+        ax.imshow(img, cmap="gray", vmin=0, vmax=1)
+        ax.set_title(title, fontsize=14)
+        ax.axis("off")
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
