@@ -1,16 +1,18 @@
-"""The custom bokeh figures and GIFs, made from the raw photos in Captures/Custom_Bokeh/.
+"""Draw the custom bokeh figures and GIFs from the raw photos in Captures/Custom_Bokeh/.
 
 An out-of-focus light takes the shape of the aperture. Every fairy light behind the scene
 shows the pattern the panel held. The script develops each CR2 at half size and cuts the
 same square of lights out of every photo of a panel position. It lays the cuts out under
-the pattern the panel showed, one column per pattern and one row per panel position. It
-also writes a looping GIF per character and panel position from the full frames, which
-plays the walk cycle as the lights saw it.
+the pattern the panel showed, with one column per pattern and one row per panel position.
+It turns each cut 90 degrees anticlockwise so the lights face the same way as the pattern.
+It mirrors the cuts from in front of the lens left to right, where the lights came out
+reversed. It also writes a looping GIF per character and panel position from the full
+frames. Each GIF plays the walk cycle as the camera recorded it.
 
 Every highlight carries a fine mesh, the panel's pixel grid. The script measures its pitch
-from the spectrum of the cut, in full-size sensor pixels, and writes it to highlights.csv
-with the tilt of the grid. Each panel position is scaled to its own brightest light, so
-the two photo rows compare shapes and sizes, not brightness.
+from the spectrum of the cut in full-size sensor pixels. It writes the pitch and the tilt of
+the grid to highlights.csv. The script scales each panel position to its own brightest light.
+You can then compare the two photo rows by shape and size alone.
 
 Run from this folder:
   .venv/bin/python bokeh_figure.py          writes bokeh_sprites.png, bokeh_masks.png,
@@ -43,10 +45,17 @@ sys.path.insert(0, str(CAPTURE_APP))
 import patterns  # noqa: E402
 
 # the folder under Captures/Custom_Bokeh, the row label and the centre of the cut as (x, y) in
-# full-size px. The lights never moved within a position, so one square serves every photo. Each was
-# chosen by eye as a group of lights with the clearest gaps between them
+# full-size px. The lights never moved within a position. One square serves every photo of that
+# position. The group picked each square by eye where the lights have the clearest gaps
 POSITIONS = [("outside_lens", "In front\nof the lens", (3800, 900)),
-             ("inside_lens", "Inside\nthe tube", (3300, 850))]
+             ("inside_lens", "Behind\nthe lens", (3300, 850))]
+# where a figure shows a wider square than the one the script measures the mesh on: the centre as
+# (x, y) in full-size px and the side in half-size px. Each light spreads wider behind the lens.
+# The figure zooms out there and stays above the blurred foreground at the bottom of the frame
+SHOWN = {"inside_lens": ((3400, 1100), 1100)}
+# the positions whose cuts the figure mirrors left to right after the turn. The lights there came
+# out reversed
+MIRRORED = {"outside_lens"}
 # the file stem and the column title. A sprite stem names a frame in sprites/binary/<character>/
 SPRITES_SHOWN = [("knight_binary_walk_1", "Knight 1"), ("knight_binary_walk_2", "Knight 2"),
                  ("link_binary_attack_1", "Link 1"), ("link_binary_attack_2", "Link 2"),
@@ -156,6 +165,8 @@ def measure(captures):
             rgb, clipped = develop(path)
             crop = cut(rgb, (centre[1] / 2, centre[0] / 2), CROP)     # centre is (x, y) in full-size px
             pitch, angle = mesh_pitch(crop.mean(axis=2))
+            shown_centre, side = SHOWN.get(folder, (centre, CROP))
+            crop = cut(rgb, (shown_centre[1] / 2, shown_centre[0] / 2), side)
             frame = np.stack([np.asarray(Image.fromarray((rgb[..., k] * 65535).astype(np.uint16)).resize(GIF_SIZE, Image.BOX))
                               for k in range(3)], axis=-1).astype(np.float32) / 65535.0
             crop_white = max(crop_white, float(np.percentile(crop.mean(axis=2), 99.5)))
@@ -181,7 +192,9 @@ def figure(shown, series, out):
             ax_panel.imshow(panel(pattern_name(stem), s["pupil"]), cmap="gray", vmin=0, vmax=1,
                             interpolation="nearest")
             if stem in s["items"]:
-                ax_photo.imshow(to_u8(s["items"][stem]["crop"], s["crop_gain"]))
+                # turned 90 degrees anticlockwise so the lights face the same way as the pattern
+                img = np.rot90(to_u8(s["items"][stem]["crop"], s["crop_gain"]))
+                ax_photo.imshow(img[:, ::-1] if folder in MIRRORED else img)
             if k == 0:
                 ax_panel.set_title(title)
             if j == 0:
