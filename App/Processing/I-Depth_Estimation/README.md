@@ -42,7 +42,7 @@ location. You can run it from any folder:
 | --- | --- |
 | `calibrate.py` | `calibration/master_dark.npy`, `calibration/calibration.npz` and `calibration/psf_pairs.png` |
 | `psf_fourier.py` | `calibration/psf_fourier.png` |
-| Pixel by pixel | `pixel_by_pixel_method/depth_heatmap.png`, `depth_mm.npy`, `confidence.npy` and `settings.json` |
+| Pixel by pixel | `pixel_by_pixel_method/depth_heatmap.png`, `depth_map.png`, `depth_map_confident.png`, `captured_mask1.png`, `depth_mm.npy`, `confidence.npy` and `settings.json` |
 | Vertical strip | `vertical_strip_method/depth_map.png`, `depth_steps.png` and `depth_mm.npy` |
 
 ## The photos

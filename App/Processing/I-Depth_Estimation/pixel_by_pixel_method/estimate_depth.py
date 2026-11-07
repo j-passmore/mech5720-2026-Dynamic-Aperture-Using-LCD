@@ -19,7 +19,10 @@ II-Post_Capture_Reconstruction/pixel_by_pixel_method/reconstruct.py makes the
 all-in-focus image from the same deconvolution and this depth map.
 
 Outputs (Out/Depth_Estimation/pixel_by_pixel_method/):
-    depth_heatmap.png   capture | depth map | confident depth
+    depth_heatmap.png   capture | depth map | confident depth | all-in-focus
+    captured_mask1.png  the mask 1 photo on its own
+    depth_map.png       the depth map on its own, with the distance scale
+    depth_map_confident.png  the confident pixels on their own, with the scale
     depth_mm.npy        depth per pixel (mm), at the processing resolution
     confidence.npy      boolean map of confident pixels
     settings.json       the scene and settings of this run, read by reconstruct.py
@@ -99,9 +102,10 @@ def main():
           f"PSFs {kernels[0][0].shape[0]} px, lam {args.lam}, window {args.window}")
 
     # ---- depth search --------------------------------------------------------
-    errors, _ = dfd.estimate(I1, I2, kernels, args.lam, args.window)
+    errors, latents = dfd.estimate(I1, I2, kernels, args.lam, args.window)
     best, margin = dfd.select_depth(errors)
     depth_mm = depths[best]
+    sharp = dfd.compose(latents, best)      # shown in the figure; reconstruct.py saves it
 
     brightness = ndi.uniform_filter((I1 + I2) / 2, args.window)
     confident = (brightness > args.min_signal * np.percentile(I1, 99)) & (margin > args.min_margin)
@@ -119,26 +123,47 @@ def main():
     for d, c in zip(depths, counts):
         print(f"  {d:6.0f} mm: {100 * c / max(confident.sum(), 1):5.1f}% of confident pixels")
 
-    # ---- figure in the style of Zhou et al.: capture, depth map, confident depth
+    # ---- figure in the style of Zhou et al.: capture, depth map, all-focus ----
     cmap = plt.get_cmap("jet", n).copy()
     cmap.set_bad("black")
     norm = BoundaryNorm(np.arange(n + 1) - 0.5, n)
-    fig, ax = plt.subplots(1, 3, figsize=(18, 4.8), layout="constrained")
-    ax[0].imshow(to_display(I1), cmap="gray"); ax[0].set_title("Captured image (mask 1)")
-    ax[1].imshow(best, cmap=cmap, norm=norm); ax[1].set_title("Estimated depth map")
-    im = ax[2].imshow(np.ma.masked_where(~confident, best), cmap=cmap, norm=norm)
-    ax[2].set_title("Depth map, confident pixels only")
-    for a in ax:
-        a.axis("off")
-    cb = fig.colorbar(im, ax=ax, ticks=range(n), shrink=0.8, label="Distance from LCD")
-    cb.ax.set_yticklabels([f"{d:.0f} mm" for d in depths])
+    capture = to_display(I1)
+    all_focus = to_display(np.clip(sharp, 0, None))
+    confident_best = np.ma.masked_where(~confident, best)
     title = f"Coded aperture pair DfD, pixel by pixel method, scene {args.scene_dir}"
     if cal["saturated_energy"].max() > 0:
         title += "  (TEST: saturated PSFs)"
+
+    fig, ax = plt.subplots(2, 2, figsize=(13, 8.5), layout="constrained")
+    ax[0, 0].imshow(capture, cmap="gray"); ax[0, 0].set_title("Captured image (mask 1)")
+    ax[0, 1].imshow(best, cmap=cmap, norm=norm); ax[0, 1].set_title("Estimated depth map")
+    im = ax[1, 0].imshow(confident_best, cmap=cmap, norm=norm)
+    ax[1, 0].set_title("Depth map, confident pixels only")
+    ax[1, 1].imshow(all_focus, cmap="gray"); ax[1, 1].set_title("Recovered all-in-focus image")
+    for a in ax.ravel():
+        a.axis("off")
+    cb = fig.colorbar(im, ax=ax[:, :], ticks=range(n), shrink=0.6, label="Distance from LCD")
+    cb.ax.set_yticklabels([f"{d:.0f} mm" for d in depths])
     fig.suptitle(title)
     fig.savefig(OUTPUT / "depth_heatmap.png", dpi=110)
-    print(f"Saved depth_heatmap.png, depth_mm.npy, confidence.npy and settings.json "
-          f"in {OUTPUT.relative_to(REPO)}")
+    plt.close(fig)
+
+    # ---- each panel on its own -----------------------------------------------
+    # reconstruct.py saves the all-in-focus panel in Out/Post_Capture_Reconstruction/.
+    plt.imsave(OUTPUT / "captured_mask1.png", capture, cmap="gray")
+    for name, data, label in (("depth_map.png", best, "Estimated depth map"),
+                              ("depth_map_confident.png", confident_best,
+                               "Depth map, confident pixels only")):
+        fig, ax = plt.subplots(figsize=(8, 5), layout="constrained")
+        im = ax.imshow(data, cmap=cmap, norm=norm)
+        ax.set_title(label)
+        ax.axis("off")
+        cb = fig.colorbar(im, ax=ax, ticks=range(n), label="Distance from LCD")
+        cb.ax.set_yticklabels([f"{d:.0f} mm" for d in depths])
+        fig.savefig(OUTPUT / name, dpi=150)
+        plt.close(fig)
+    print(f"Saved depth_heatmap.png, captured_mask1.png, depth_map.png, depth_map_confident.png, "
+          f"depth_mm.npy, confidence.npy and settings.json in {OUTPUT.relative_to(REPO)}")
 
 
 if __name__ == "__main__":

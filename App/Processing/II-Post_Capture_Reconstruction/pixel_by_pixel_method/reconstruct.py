@@ -13,8 +13,9 @@ The script reads the scene and settings from the depth run's settings.json,
 so both halves work on the same pair. It runs the depth script first when no
 depth run exists yet.
 
-Output (Out/Post_Capture_Reconstruction/pixel_by_pixel_method/):
-    all_in_focus.png    deconvolved sharp image
+Outputs (Out/Post_Capture_Reconstruction/pixel_by_pixel_method/):
+    reconstruction_comparison.png   the mask 1 photo and the sharp image side by side
+    all_in_focus.png                deconvolved sharp image
 
 Run from this folder, after I-Depth_Estimation/calibrate.py:
     python reconstruct.py
@@ -37,7 +38,7 @@ import numpy as np
 import dfd
 from common import (CALIBRATION_FILE, CAPTURES, MASTER_DARK_FILE, OUT_DEPTH,
                     OUT_RECONSTRUCTION, REPO, SCENE_NAME, downsample,
-                    load_green, to_display)
+                    load_green, save_comparison, to_display)
 
 DEPTH_SCRIPT = DEPTH_FOLDER / "pixel_by_pixel_method" / "estimate_depth.py"
 DEPTH_RUN = OUT_DEPTH / "pixel_by_pixel_method"
@@ -69,8 +70,10 @@ def main():
     sharp = dfd.compose(latents, best)
 
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    plt.imsave(OUTPUT / "all_in_focus.png", to_display(np.clip(sharp, 0, None)), cmap="gray")
-    print(f"Saved {(OUTPUT / 'all_in_focus.png').relative_to(REPO)}")
+    after = to_display(np.clip(sharp, 0, None))
+    plt.imsave(OUTPUT / "all_in_focus.png", after, cmap="gray")
+    save_comparison(to_display(I1), after, OUTPUT / "reconstruction_comparison.png")
+    print(f"Saved reconstruction_comparison.png and all_in_focus.png in {OUTPUT.relative_to(REPO)}")
 
 
 if __name__ == "__main__":
