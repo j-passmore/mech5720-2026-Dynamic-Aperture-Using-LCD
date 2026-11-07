@@ -1,16 +1,22 @@
 # Reconstruct a sharper image using two RAW captures and a saved depth map.
 #
 # How to use:
-# 1. Copy dfd.py and common.py from another reconstruction method into this folder.
-# 2. Run I-Depth_Estimation/vertical_strip_method/estimate_depth.py first.
-# 3. Copy I-Depth_Estimation/vertical_strip_method/output/depth_mm.npy here,
-#    next to reconstruct.py.
-# 4. Use the same SCENE and DOWNSAMPLE settings as the depth script.
-# 5. Run: python reconstruct.py
-# 6. The image is saved in
-#    II-Post_Capture_Reconstruction/vertical_strip_method/output/.
+# 1. Run calibrate.py in App/Processing/I-Depth_Estimation/ once.
+# 2. Use the same SCENE and DOWNSAMPLE settings as the depth script.
+# 3. Run: python reconstruct.py
+# 4. The script reads Out/Depth_Estimation/vertical_strip_method/depth_mm.npy.
+#    It runs I-Depth_Estimation/vertical_strip_method/estimate_depth.py first
+#    when that file is missing.
+# 5. The script saves the image in
+#    Out/Post_Capture_Reconstruction/vertical_strip_method/.
 
+import subprocess
+import sys
 from pathlib import Path
+
+DEPTH_FOLDER = Path(__file__).resolve().parents[2] / "I-Depth_Estimation"
+# The shared code (common.py and dfd.py) sits in I-Depth_Estimation.
+sys.path.insert(0, str(DEPTH_FOLDER))
 
 import matplotlib
 matplotlib.use("Agg")
@@ -19,15 +25,17 @@ import numpy as np
 from scipy import fft
 
 import dfd
-from common import (CAPTURES, CALIBRATION_FILE, MASTER_DARK_FILE,
-                    SCENE_NAME, downsample, load_green, to_display)
+from common import (CAPTURES, CALIBRATION_FILE, MASTER_DARK_FILE, OUT_DEPTH,
+                    OUT_RECONSTRUCTION, SCENE_NAME, downsample, load_green,
+                    to_display)
 
 SCENE = "Scale_1/pair2"
 DOWNSAMPLE = 2
 LAM = 0.5
 RIDGE = 0.003
-DEPTH_MAP = Path(__file__).resolve().parent / "depth_mm.npy"
-OUTPUT = Path(__file__).resolve().parent / "output"
+DEPTH_SCRIPT = DEPTH_FOLDER / "vertical_strip_method" / "estimate_depth.py"
+DEPTH_MAP = OUT_DEPTH / "vertical_strip_method" / "depth_mm.npy"
+OUTPUT = OUT_RECONSTRUCTION / "vertical_strip_method"
 
 
 def reconstruct_at_depth(image1, image2, psf1, psf2):
@@ -52,6 +60,10 @@ def reconstruct_at_depth(image1, image2, psf1, psf2):
 
 
 def main():
+    if not DEPTH_MAP.exists():
+        print("No vertical strip depth map yet. Running its depth script first.")
+        subprocess.run([sys.executable, str(DEPTH_SCRIPT)], check=True)
+
     with np.load(CALIBRATION_FILE) as data:
         distances = np.asarray(data["depths_mm"], dtype=float)
         psf_pairs = np.asarray(data["kernels"])
@@ -74,7 +86,7 @@ def main():
             image = reconstruct_at_depth(image1, image2, psf1, psf2)
             reconstructed[:, columns] = image[:, columns]
 
-    OUTPUT.mkdir(exist_ok=True)
+    OUTPUT.mkdir(parents=True, exist_ok=True)
     plt.imsave(OUTPUT / "all_in_focus.png", to_display(np.maximum(reconstructed, 0)),
                cmap="gray")
 

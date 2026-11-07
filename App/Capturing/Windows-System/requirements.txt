@@ -1,0 +1,6 @@
+# send_pattern.py and check_saturation.py. capture_photo.py also needs digiCamControl
+#   pip install -r requirements.txt
+pyserial
+pillow
+rawpy
+numpy

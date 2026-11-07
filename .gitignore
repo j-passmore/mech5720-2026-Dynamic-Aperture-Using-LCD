@@ -1,6 +1,10 @@
 # the figures and GIFs the processing scripts write. Rerun the scripts to make them
 Out/**/*.png
 Out/**/*.gif
+# the depth maps and calibration the depth scripts save for the reconstruction scripts
+Out/**/*.npy
+Out/**/*.npz
+Out/**/settings.json
 # except the ones the READMEs show
 !Out/Flutter_Shutter/flutter_front_95.png
 !Out/Flutter_Shutter/flutter_inside_95.png
