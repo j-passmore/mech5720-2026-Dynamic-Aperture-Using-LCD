@@ -29,9 +29,8 @@ Outputs (Out/Depth_Estimation/calibration/):
     psf_pairs.png       visual check of every PSF pair
 
 Run from this folder (App/Processing/I-Depth_Estimation/):
-    python calibrate.py
-    python calibrate.py --allow-saturated      # test with current data
-    python calibrate.py --psf-dir Scale_1/psfs_v2 --psf-name "m{mask}_psf{index}.CR2"
+    python calibrate.py --allow-saturated      # the report run: psfs_v2, 350 mm mask 1 PSF clips 14%
+    python calibrate.py --psf-dir Scale_1/psfs --psf-name "mask{mask}_psf{index}.CR2"   # first set
 """
 
 import argparse

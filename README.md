@@ -82,7 +82,7 @@ processing.
 | [App/Processing/II-Post_Capture_Reconstruction](App/Processing/II-Post_Capture_Reconstruction) | The folder holds the scripts that recover an all-in-focus image with each depth method, with [their README](App/Processing/II-Post_Capture_Reconstruction/README.md). |
 | [App/Processing/III-Custom_Bokeh](App/Processing/III-Custom_Bokeh) | The folder holds the script that draws the bokeh figures and GIFs, with [its README](App/Processing/III-Custom_Bokeh/README.md). |
 | [App/Processing/IV-Flutter_Shutter](App/Processing/IV-Flutter_Shutter) | The folder holds the scripts that deblur and score the flutter photos and draw the key figures, with [their README](App/Processing/IV-Flutter_Shutter/README.md). |
-| [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The depth and reconstruction scripts share `Captures/Depth_Estimation_and_Reconstruction/`. It holds the scene pair so far. The group has yet to add the dark frames and PSF photos. |
+| [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The depth and reconstruction scripts share `Captures/Depth_Estimation_and_Reconstruction/`, which holds the dark frames, the PSFs and the scene pair. |
 | [Out](Out) | The folder holds what the scripts write in one subfolder per experiment. |
 | [Hardware-Modifications](Hardware-Modifications) | The folder holds photos of the parts. |
 
@@ -330,7 +330,7 @@ The scripts read the dark frames, the PSFs and the scene pairs in
 
 ```bash
 cd App/Processing/I-Depth_Estimation
-.venv/bin/python calibrate.py
+.venv/bin/python calibrate.py --allow-saturated
 .venv/bin/python psf_fourier.py
 .venv/bin/python pixel_by_pixel_method/estimate_depth.py
 .venv/bin/python vertical_strip_method/estimate_depth.py
@@ -367,21 +367,20 @@ cd App/Processing/II-Post_Capture_Reconstruction
 
 | Result | File in `Out/Post_Capture_Reconstruction/` |
 | --- | --- |
-| The key figure: the vertical strip photo before and after reconstruction | `vertical_strip_method/reconstruction_comparison.png` |
-| The all-in-focus image from the vertical strip depth map | `vertical_strip_method/all_in_focus.png` |
-| The pixel by pixel photo before and after reconstruction | `pixel_by_pixel_method/reconstruction_comparison.png` |
+| The key figure: the mask 1 photo before and after reconstruction | `pixel_by_pixel_method/reconstruction_comparison.png` |
 | The all-in-focus image from the pixel by pixel depth map | `pixel_by_pixel_method/all_in_focus.png` |
+| The same pair of figures from the vertical strip depth map | `vertical_strip_method/reconstruction_comparison.png` and `all_in_focus.png` |
 
-![A barcode scene through mask 1 before reconstruction and after the vertical strip
-reconstruction](Out/Post_Capture_Reconstruction/vertical_strip_method/reconstruction_comparison.png)
+![The scene through mask 1 before reconstruction and after the pixel by pixel
+reconstruction](Out/Post_Capture_Reconstruction/pixel_by_pixel_method/reconstruction_comparison.png)
 
-*The vertical strip method on a barcode scene. The left half shows the photo through mask 1. The
-right half shows the same photo after the script deblurs each strip at the distance it picked for
-that strip. The bars and digits of the barcode come out sharp. Ringing lines run down the bright
-object on the right.*
+*The left half shows `Scale_1/mask1.CR2`, the scene through mask 1. The right half shows the same
+scene after the script deblurs each pixel at the distance the pixel by pixel method picked. The
+plant, the Opera House model and the "55-250" on the lens barrel come out sharp. Ringing shows
+along the edges where the depth map jumps between distances.*
 
-The folder holds the scene pair so far. The group has yet to add the dark frames and PSF photos
-that `calibrate.py` needs. The depth and reconstruction blocks fail until they arrive.
+The vertical strip lines in both blocks need Jayden's scene pair in `Scale_1/pair2/` and his own
+PSF set, which the repo does not hold.
 
 ### III. Custom bokeh
 

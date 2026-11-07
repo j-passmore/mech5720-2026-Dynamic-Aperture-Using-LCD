@@ -31,8 +31,10 @@ DISTANCES_FILE = CAPTURES / "distances.yaml"
 
 # ---- Calibration inputs (relative to CAPTURES) -----------------------------
 DARK_GLOB = "fpn/d*.CR2"                    # lens-cap dark frames
-PSF_DIR = "Scale_1/psfs"
-PSF_NAME = "mask{mask}_psf{index}.CR2"      # mask = 1 or 2, index = psfN in distances.yaml
+# The report used the second PSF set. The first set, Scale_1/psfs with names
+# mask{mask}_psf{index}.CR2, stays in the repo for comparison.
+PSF_DIR = "Scale_1/psfs_v2"
+PSF_NAME = "m{mask}_psf{index}.CR2"         # mask = 1 or 2, index = psfN in distances.yaml
 
 # ---- Scene inputs (relative to CAPTURES) ----------------------------------
 SCENE_DIR = "Scale_1"

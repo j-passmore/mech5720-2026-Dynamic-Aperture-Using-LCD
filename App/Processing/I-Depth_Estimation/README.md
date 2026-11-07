@@ -32,7 +32,7 @@ Run the calibration once and then either method. Each script finds its folders f
 location. You can run it from any folder:
 
 ```bash
-.venv/bin/python calibrate.py
+.venv/bin/python calibrate.py --allow-saturated
 .venv/bin/python psf_fourier.py
 .venv/bin/python pixel_by_pixel_method/estimate_depth.py
 .venv/bin/python vertical_strip_method/estimate_depth.py
@@ -47,15 +47,17 @@ location. You can run it from any folder:
 
 ## The photos
 
-`Captures/Depth_Estimation_and_Reconstruction/` keeps the folder layout of the capture laptop. The scripts read
-these files:
+`Captures/Depth_Estimation_and_Reconstruction/` keeps the folder layout of the capture laptop:
 
 | Path | Photos |
 | --- | --- |
-| `fpn/d*.CR2` | Lens cap dark frames |
-| `Scale_1/psfs/mask{1,2}_psf{1..5}.CR2` | A torch at each distance through mask 1 and mask 2 |
-| `Scale_1/mask{1,2}.CR2` | The scene pair the pixel by pixel method reads by default |
-| `Scale_1/pair2/mask{1,2}.CR2` | The scene pair the vertical strip method reads |
+| `fpn/d1.CR2` to `d10.CR2` | Ten lens cap dark frames, which `calibrate.py` averages into the master dark |
+| `Scale_1/psfs_v2/m{1,2}_psf{1..5}.CR2` | A torch at each distance through mask 1 and mask 2, the set the report used |
+| `Scale_1/psfs/mask{1,2}_psf{1..5}.CR2` | The first PSF set. Every photo in it clips, so the group shot the second set |
+| `Scale_1/mask{1,2}.CR2` | The scene pair the pixel by pixel method reads |
+| `Scale_1/pair2/mask{1,2}.CR2` | The scene pair the vertical strip method reads, not in the repo |
+| `ambient/amb*.CR2` | Ten ambient frames at the scene settings. They average within 0.1 DN of the dark frames, so the room light adds nothing |
+| `black_lvl.CR2` | One frame for the black level of the sensor, 2049 DN |
 | `distances.yaml` | The distance from the panel to the torch for each PSF |
 
 `distances.yaml` records the settings: 2 s, ISO 200 and f/5 with the lens at 35 mm. `--scene-dir` picks
@@ -81,9 +83,11 @@ strong vertical edge in the photo. The method assumes the objects stand side by 
 ## Pitfalls
 
 - **Saturated PSFs.** A clipped torch flattens the core of the PSF, where the coded pattern sits.
-  `calibrate.py` refuses clipped PSFs unless you pass `--allow-saturated`.
+  `calibrate.py` refuses clipped PSFs unless you pass `--allow-saturated`. In the report run 14%
+  of the energy of the 350 mm mask 1 PSF sat in clipped pixels. The figures carry "TEST:
+  saturated PSFs" in their titles for that reason.
 - **Locked focus.** The PSFs hold only at the zoom, focus and f-number of the scene photos. Keep
   the lens on MF and leave the focus ring alone between the PSF photos and the scene photos.
-- **Two PSF sets.** `psf_fourier.py` warns unless the calibration came from a second set in
-  `Scale_1/psfs_v2/`. `calibrate.py --psf-dir Scale_1/psfs_v2 --psf-name "m{mask}_psf{index}.CR2"`
-  builds the calibration from that set.
+- **Two PSF sets.** `calibrate.py` reads `Scale_1/psfs_v2/` by default, the set the report used.
+  `calibrate.py --psf-dir Scale_1/psfs --psf-name "mask{mask}_psf{index}.CR2"` builds the
+  calibration from the first set instead.

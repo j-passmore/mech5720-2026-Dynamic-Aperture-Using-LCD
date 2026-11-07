@@ -16,8 +16,8 @@ All spectra are log10 magnitude, relative to the mask-1 DC term (= 1 because
 the mask-1 PSF sums to 1), on one shared colour scale.
 
 Reads Out/Depth_Estimation/calibration/calibration.npz, so run calibrate.py
-on the v2 PSFs first. Run from this folder (App/Processing/I-Depth_Estimation/):
-    python calibrate.py --psf-dir Scale_1/psfs_v2 --psf-name "m{mask}_psf{index}.CR2"
+on the v2 PSFs (its default) first. Run from this folder (App/Processing/I-Depth_Estimation/):
+    python calibrate.py --allow-saturated
     python psf_fourier.py
     python psf_fourier.py --fmax 0.5 --floor -5
 """
