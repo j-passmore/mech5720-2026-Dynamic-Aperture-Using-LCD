@@ -33,8 +33,8 @@ MECH5720 Computational Imaging · The University of Sydney · 2026
     </td>
     <td align="center" width="50%">
       <b><a href="#post-capture-refocus">Post-capture refocus</a></b><br><br>
-      <img src="Out/Post_Capture_Reconstruction/scan_3x3.png" height="240" alt="The nine tiles of the 3 x 3 sub-aperture scan inside the pupil"><br>
-      <sub>The panel opens one tile per photo. The refocus results are still to come.</sub>
+      <img src="Out/Post_Capture_Reconstruction/all_in_focus.png" height="240" alt="The desk scene rebuilt sharp from the two coded photos"><br>
+      <sub><code>reconstruct.py</code> rebuilds a sharp image from the two coded photos and the depth map.</sub>
     </td>
   </tr>
   <tr>
@@ -67,8 +67,8 @@ processing.
 
 | Experiment | Panel role | Status |
 | --- | --- | --- |
-| [Depth estimation](#depth-estimation) | The panel shows the coded aperture pair of Zhou, Lin and Nayar. | ![In progress](https://img.shields.io/badge/in%20progress-F0AD4E?style=flat-square) |
-| [Post-capture refocus](#post-capture-refocus) | The panel opens one tile of the aperture per photo in a 3x3 or 5x5 scan. | ![In progress](https://img.shields.io/badge/in%20progress-F0AD4E?style=flat-square) |
+| [Depth estimation](#depth-estimation) | The panel shows the coded aperture pair of Zhou, Lin and Nayar. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
+| [Post-capture refocus](#post-capture-refocus) | The panel opens one tile of the aperture per photo in a 3x3 or 5x5 scan. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
 | [Custom bokeh](#custom-bokeh) | The panel draws the shape every out-of-focus light takes. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
 | [Flutter shutter](#flutter-shutter) | The panel plays a 32-chop binary code inside one exposure. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
 
@@ -79,7 +79,7 @@ processing.
 | [App/Capturing/Ubuntu-System](App/Capturing/Ubuntu-System) | The folder holds the capture app: the server, the window, the command line client, the Arduino sketch, the masks and the sprites. [Its README](App/Capturing/Ubuntu-System/README.md) is the app manual. |
 | [App/Processing/III-Custom_Bokeh](App/Processing/III-Custom_Bokeh) | The folder holds the script that draws the bokeh figures and GIFs, with [its README](App/Processing/III-Custom_Bokeh/README.md). |
 | [App/Processing/IV-Flutter_Shutter](App/Processing/IV-Flutter_Shutter) | The folder holds the scripts that deblur and score the flutter photos and draw the key figures, with [their README](App/Processing/IV-Flutter_Shutter/README.md). |
-| [App/Processing/I-Depth_Estimation](App/Processing/I-Depth_Estimation) and [II-Post_Capture_Reconstruction](App/Processing/II-Post_Capture_Reconstruction) | The depth and refocus code will go in these empty folders. |
+| [App/Processing/I-Depth_Estimation](App/Processing/I-Depth_Estimation) and [II-Post_Capture_Reconstruction](App/Processing/II-Post_Capture_Reconstruction) | The folders hold `estimate_depth.py` and `reconstruct.py`, each in `vertical_strip_method/`. |
 | [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The other two hold placeholders. |
 | [Out](Out) | The folder holds what the scripts write in one subfolder per experiment. |
 | [Hardware-Modifications](Hardware-Modifications) | The folder holds photos of the parts. |
