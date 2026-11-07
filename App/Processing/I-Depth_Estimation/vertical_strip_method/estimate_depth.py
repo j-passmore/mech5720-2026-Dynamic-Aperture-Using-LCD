@@ -1,7 +1,7 @@
 # How to use:
 # 1. Run calibrate.py in App/Processing/I-Depth_Estimation/ once.
-# 2. Change SCENE below to the capture folder in Captures/Depth_Estimation/
-#    you want to use.
+# 2. Change SCENE below to the capture folder you want to use, inside
+#    Captures/Depth_Estimation_and_Reconstruction/.
 # 3. Run: python estimate_depth.py
 # 4. The script saves the depth map and two pictures in
 #    Out/Depth_Estimation/vertical_strip_method/.

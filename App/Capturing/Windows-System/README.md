@@ -21,5 +21,5 @@ python check_saturation.py captures --raw-only
 
 Put the camera on M with RAW + L quality and the lens on MF. Close digiCamControl and EOS Utility
 before you run `capture_photo.py`. Only one program can hold the camera at a time. Copy the photos
-into [Captures/Depth_Estimation](../../../Captures/Depth_Estimation) in the layout
+into [Captures/Depth_Estimation_and_Reconstruction](../../../Captures/Depth_Estimation_and_Reconstruction) in the layout
 [the depth README](../../Processing/I-Depth_Estimation/README.md) lists.
