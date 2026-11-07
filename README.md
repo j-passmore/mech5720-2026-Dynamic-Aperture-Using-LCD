@@ -346,6 +346,14 @@ cd App/Processing/I-Depth_Estimation
 | The mask 1 photo on its own | `pixel_by_pixel_method/captured_mask1.png` |
 | The vertical strip depth map | `vertical_strip_method/depth_steps.png` |
 
+![The photo through mask 1, the distance the pixel by pixel method picked for each pixel, the
+pixels it trusts and the all-in-focus image](Out/Depth_Estimation/pixel_by_pixel_method/depth_heatmap.png)
+
+*The pixel by pixel method on the scene pair with the LCD in front of the lens. The top row shows
+the photo through mask 1 and the distance the method picked for each pixel, from 350 to 903 mm.
+The bottom row keeps only the pixels the method trusts and shows the all-in-focus image from the
+same deblur.*
+
 ### II. Post-capture reconstruction
 
 The scripts read the same photos as depth estimation. They also read the depth map of each method.
