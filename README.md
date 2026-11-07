@@ -367,8 +367,18 @@ cd App/Processing/II-Post_Capture_Reconstruction
 
 | Result | File in `Out/Post_Capture_Reconstruction/` |
 | --- | --- |
-| The all-in-focus image from the pixel by pixel depth map | `pixel_by_pixel_method/all_in_focus.png` |
+| The key figure: the vertical strip photo before and after reconstruction | `vertical_strip_method/reconstruction_comparison.png` |
 | The all-in-focus image from the vertical strip depth map | `vertical_strip_method/all_in_focus.png` |
+| The pixel by pixel photo before and after reconstruction | `pixel_by_pixel_method/reconstruction_comparison.png` |
+| The all-in-focus image from the pixel by pixel depth map | `pixel_by_pixel_method/all_in_focus.png` |
+
+![A barcode scene through mask 1 before reconstruction and after the vertical strip
+reconstruction](Out/Post_Capture_Reconstruction/vertical_strip_method/reconstruction_comparison.png)
+
+*The vertical strip method on a barcode scene. The left half shows the photo through mask 1. The
+right half shows the same photo after the script deblurs each strip at the distance it picked for
+that strip. The bars and digits of the barcode come out sharp. Ringing lines run down the bright
+object on the right.*
 
 The folder holds the scene pair so far. The group has yet to add the dark frames and PSF photos
 that `calibrate.py` needs. The depth and reconstruction blocks fail until they arrive.

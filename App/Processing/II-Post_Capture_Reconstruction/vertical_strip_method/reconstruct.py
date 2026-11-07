@@ -7,7 +7,8 @@
 # 4. The script reads Out/Depth_Estimation/vertical_strip_method/depth_mm.npy.
 #    It runs I-Depth_Estimation/vertical_strip_method/estimate_depth.py first
 #    when that file is missing.
-# 5. The script saves the image in
+# 5. The script saves all_in_focus.png and reconstruction_comparison.png, the
+#    photo and the sharp image side by side, in
 #    Out/Post_Capture_Reconstruction/vertical_strip_method/.
 
 import subprocess
@@ -27,7 +28,7 @@ from scipy import fft
 import dfd
 from common import (CAPTURES, CALIBRATION_FILE, MASTER_DARK_FILE, OUT_DEPTH,
                     OUT_RECONSTRUCTION, SCENE_NAME, downsample, load_green,
-                    to_display)
+                    save_comparison, to_display)
 
 SCENE = "Scale_1/pair2"
 DOWNSAMPLE = 2
@@ -87,8 +88,10 @@ def main():
             reconstructed[:, columns] = image[:, columns]
 
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    plt.imsave(OUTPUT / "all_in_focus.png", to_display(np.maximum(reconstructed, 0)),
-               cmap="gray")
+    after = to_display(np.maximum(reconstructed, 0))
+    plt.imsave(OUTPUT / "all_in_focus.png", after, cmap="gray")
+    save_comparison(to_display(np.maximum(image1, 0)), after,
+                    OUTPUT / "reconstruction_comparison.png")
 
 
 if __name__ == "__main__":
