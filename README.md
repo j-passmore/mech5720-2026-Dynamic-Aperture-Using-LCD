@@ -26,17 +26,30 @@ MECH5720 Computational Imaging · The University of Sydney · 2026
 
 <table>
   <tr>
-    <td align="center" width="50%"><img src="Out/Custom_Bokeh/mario_outside_lens.gif" alt="Out-of-focus lights shaped like a walking sprite with the LCD in front of the lens"></td>
-    <td align="center" width="50%"><img src="Out/Custom_Bokeh/mario_inside_lens.gif" alt="Out-of-focus lights shaped like a walking sprite with the LCD behind the lens"></td>
+    <td align="center" width="50%">
+      <b><a href="#depth-estimation">Depth estimation</a></b><br><br>
+      <img src="Out/Depth_Estimation/mask1.jpg" height="240" alt="A defocused desk scene photographed through coded mask 1"><br>
+      <sub>The camera takes one photo through each coded mask. It took this one through mask 1.</sub>
+    </td>
+    <td align="center" width="50%">
+      <b><a href="#post-capture-refocus">Post-capture refocus</a></b><br><br>
+      <img src="Out/Post_Capture_Reconstruction/scan_3x3.png" height="240" alt="The nine tiles of the 3 x 3 sub-aperture scan inside the pupil"><br>
+      <sub>The panel opens one tile per photo. The refocus results are still to come.</sub>
+    </td>
   </tr>
   <tr>
-    <td align="center"><sub>The LCD sits in front of the lens at a 9.5 mm pupil.</sub></td>
-    <td align="center"><sub>The LCD sits behind the lens at a 5.5 mm pupil.</sub></td>
+    <td align="center" width="50%">
+      <b><a href="#custom-bokeh">Custom bokeh</a></b><br><br>
+      <img src="Out/Custom_Bokeh/mario_outside_lens.gif" height="240" alt="Out-of-focus lights shaped like a walking sprite"><br>
+      <sub>Every out-of-focus light takes the shape of the frame on the panel.</sub>
+    </td>
+    <td align="center" width="50%">
+      <b><a href="#flutter-shutter">Flutter shutter</a></b><br><br>
+      <img src="Out/Flutter_Shutter/flutter_front_95_f11.png" height="240" alt="The coded, deblurred and reference photos of the toy car at f/11"><br>
+      <sub>The panel chops one 5 s exposure in a binary code. The script deblurs the car with 40 Richardson-Lucy iterations.</sub>
+    </td>
   </tr>
 </table>
-
-<sub>The panel plays a walk cycle and the camera takes one photo per frame. Every out-of-focus
-light behind the subject takes the shape of the frame on the panel.</sub>
 
 </div>
 
