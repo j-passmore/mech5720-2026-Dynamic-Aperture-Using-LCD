@@ -77,10 +77,12 @@ processing.
 | Folder | Contents |
 | --- | --- |
 | [App/Capturing/Ubuntu-System](App/Capturing/Ubuntu-System) | The folder holds the capture app: the server, the window, the command line client, the Arduino sketch, the masks and the sprites. [Its README](App/Capturing/Ubuntu-System/README.md) is the app manual. |
+| [App/Capturing/Windows-System](App/Capturing/Windows-System) | The folder holds the Windows tools that took the depth photos: the camera trigger, the mask sender and its Arduino sketch. [Its README](App/Capturing/Windows-System/README.md) lists them. |
+| [App/Processing/I-Depth_Estimation](App/Processing/I-Depth_Estimation) | The folder holds the calibration and the two depth methods, pixel by pixel and vertical strip, with [their README](App/Processing/I-Depth_Estimation/README.md). |
+| [App/Processing/II-Post_Capture_Reconstruction](App/Processing/II-Post_Capture_Reconstruction) | The folder holds the scripts that recover an all-in-focus image with each depth method, with [their README](App/Processing/II-Post_Capture_Reconstruction/README.md). |
 | [App/Processing/III-Custom_Bokeh](App/Processing/III-Custom_Bokeh) | The folder holds the script that draws the bokeh figures and GIFs, with [its README](App/Processing/III-Custom_Bokeh/README.md). |
 | [App/Processing/IV-Flutter_Shutter](App/Processing/IV-Flutter_Shutter) | The folder holds the scripts that deblur and score the flutter photos and draw the key figures, with [their README](App/Processing/IV-Flutter_Shutter/README.md). |
-| [App/Processing/I-Depth_Estimation](App/Processing/I-Depth_Estimation) and [II-Post_Capture_Reconstruction](App/Processing/II-Post_Capture_Reconstruction) | The folders hold `estimate_depth.py` and `reconstruct.py`, each in `vertical_strip_method/`. |
-| [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The other two hold placeholders. |
+| [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The depth and reconstruction scripts share `Captures/Depth_Estimation/`. The group has yet to add its photos. |
 | [Out](Out) | The folder holds what the scripts write in one subfolder per experiment. |
 | [Hardware-Modifications](Hardware-Modifications) | The folder holds photos of the parts. |
 
@@ -310,12 +312,18 @@ python capture_series.py --code designed --chop 100 --label coded --outdir captu
 
 Each processing folder has a script that redraws its figures from the raw photos in `Captures/`
 into `Out/`. Set up each folder's venv once with `python3 -m venv .venv` and
-`.venv/bin/pip install -r requirements.txt`. Run both scripts from the repository root:
+`.venv/bin/pip install -r requirements.txt`. Run the scripts from the repository root:
 
 ```bash
 (cd App/Processing/IV-Flutter_Shutter && .venv/bin/python flutter_figure.py)   # two minutes
 (cd App/Processing/III-Custom_Bokeh && .venv/bin/python bokeh_figure.py)        # half a minute
+(cd App/Processing/I-Depth_Estimation && .venv/bin/python calibrate.py && .venv/bin/python psf_fourier.py)
+(cd App/Processing/II-Post_Capture_Reconstruction && .venv/bin/python pixel_by_pixel_method/reconstruct.py && .venv/bin/python vertical_strip_method/reconstruct.py)
 ```
+
+Each reconstruction script runs its depth method first when that method has no depth map yet. On
+a fresh clone the last line draws both depth maps as well. The depth and reconstruction lines need
+the depth photos, which the group has yet to add.
 
 ![The "95" on the toy car, coded, deblurred and reference, at f/5.6, f/11 and f/22 with the LCD
 in front of the lens](Out/Flutter_Shutter/flutter_front_95.png)
