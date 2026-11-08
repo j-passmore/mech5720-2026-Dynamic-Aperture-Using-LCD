@@ -30,7 +30,7 @@ import dfd
 from common import (CAPTURES, CALIBRATION_FILE, MASTER_DARK_FILE, OUT_DEPTH,
                     SCENE_NAME, downsample, load_green, to_display)
 
-SCENE = "Scale_1/pair2"
+SCENE = "Scale_1"
 DOWNSAMPLE = 2
 WINDOW = 448
 X_STRIDE = 96

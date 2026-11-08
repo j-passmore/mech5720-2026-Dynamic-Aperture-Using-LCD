@@ -54,8 +54,7 @@ location. You can run it from any folder:
 | `fpn/d1.CR2` to `d10.CR2` | Ten lens cap dark frames, which `calibrate.py` averages into the master dark |
 | `Scale_1/psfs_v2/m{1,2}_psf{1..5}.CR2` | A torch at each distance through mask 1 and mask 2, the set the report used |
 | `Scale_1/psfs/mask{1,2}_psf{1..5}.CR2` | The first PSF set. Every photo in it clips, so the group shot the second set |
-| `Scale_1/mask{1,2}.CR2` | The scene pair the pixel by pixel method reads |
-| `Scale_1/pair2/mask{1,2}.CR2` | The scene pair the vertical strip method reads, not in the repo |
+| `Scale_1/mask{1,2}.CR2` | The scene pair both methods read |
 | `ambient/amb*.CR2` | Ten ambient frames at the scene settings. They average within 0.1 DN of the dark frames, so the room light adds nothing |
 | `black_lvl.CR2` | One frame for the black level of the sensor, 2049 DN |
 | `distances.yaml` | The distance from the panel to the torch for each PSF |
