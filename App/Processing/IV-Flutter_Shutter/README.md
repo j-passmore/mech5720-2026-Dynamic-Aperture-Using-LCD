@@ -104,3 +104,12 @@ from the coded photo has matched the wrong part of the scene. Its MSE does not c
 - **LibRaw 0.22** reads these DNGs with a black level of 2088 to 2151. That darkens a photo by
   about 5 percent and clips the faint edge of a point spread function. The scripts read the CR2
   through rawpy for that reason.
+
+## What the report's table needs
+
+The report's flutter table gives the gain of the deblurred coded photo over the box and impulse
+photos, 10 log10(MSE_baseline / MSE_coded) in dB. `flutter_score.py` computes those scores, but it
+needs the box and impulse photos and the manifest of each run, which are not in
+`Captures/Flutter_Shutter/`. The folder holds the reference and coded photos only, so
+`flutter_figure.py` rebuilds the two figures and the MSE of each coded deblur, and the table rests
+on the scores the group saved at capture time.
