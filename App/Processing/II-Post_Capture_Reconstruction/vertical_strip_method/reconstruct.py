@@ -30,7 +30,7 @@ from common import (CAPTURES, CALIBRATION_FILE, MASTER_DARK_FILE, OUT_DEPTH,
                     OUT_RECONSTRUCTION, SCENE_NAME, downsample, load_green,
                     save_comparison, to_display)
 
-SCENE = "Scale_1/pair2"
+SCENE = "Scale_1"
 DOWNSAMPLE = 2
 LAM = 0.5
 RIDGE = 0.003

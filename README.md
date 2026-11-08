@@ -379,9 +379,6 @@ scene after the script deblurs each pixel at the distance the pixel by pixel met
 plant, the Opera House model and the "55-250" on the lens barrel come out sharp. Ringing shows
 along the edges where the depth map jumps between distances.*
 
-The vertical strip lines in both blocks need Jayden's scene pair in `Scale_1/pair2/` and his own
-PSF set, which the repo does not hold.
-
 ### III. Custom bokeh
 
 The script reads the raw photos in [Captures/Custom_Bokeh](Captures/Custom_Bokeh). It takes about
