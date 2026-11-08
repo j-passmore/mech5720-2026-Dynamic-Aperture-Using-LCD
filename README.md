@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/banner/banner.png" width="100%" alt="MECH5720 2026: Dynamic Aperture using transmissive liquid crystal display control. Four photographs from the project: a barcode after post-capture refocus, the desk scene through coded mask 1, fairy lights shaped by the panel beside the raspberry pie, and the toy car through the flutter shutter code.">
+
 # MECH5720 2026: Dynamic Aperture Control with a Transmissive Liquid Crystal Display
 
 **A 1.8 inch LCD panel and an Arduino Uno give a Canon EOS 60D a programmable aperture and a
@@ -22,7 +24,8 @@ MECH5720 Computational Imaging · The University of Sydney · 2026
 [![Last commit](https://img.shields.io/github/last-commit/j-passmore/mech5720-2026-Dynamic-Aperture-Using-LCD?style=flat-square)](https://github.com/j-passmore/mech5720-2026-Dynamic-Aperture-Using-LCD/commits/main)
 
 [Layout](#repository-layout) · [Parts](#parts-list) · [Build](#build) · [Setup](#laptop-setup) ·
-[Capture](#capture-procedure) · [Figures](#regenerating-the-figures) · [Pitfalls](#known-pitfalls)
+[Capture](#capture-procedure) · [Figures](#regenerating-the-figures) · [Pitfalls](#known-pitfalls) ·
+[Credits](#credits)
 
 <table>
   <tr>
@@ -85,6 +88,8 @@ processing.
 | [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The depth and reconstruction scripts share `Captures/Depth_Estimation_and_Reconstruction/`, which holds the dark frames, the PSFs and the scene pair. |
 | [Out](Out) | The folder holds what the scripts write in one subfolder per experiment. |
 | [Hardware-Modifications](Hardware-Modifications) | The folder holds photos of the parts. |
+| [assets/banner](assets/banner) | The folder holds the banner at the top of this page: the TikZ source, the four photo crops and the renders. `latexmk -pdf banner.tex` in that folder rebuilds it. |
+| [report](report) | The folder holds the submitted report as a PDF. |
 
 ## Parts list
 
@@ -100,6 +105,7 @@ processing.
 | Desk lamp on a direct current supply | The lamp lights the target. Mains lamps flicker at 100 Hz. | |
 | Toy car with "95" on its side | The car is the moving target for the flutter shutter. | |
 | String of small lights | The lights are the out-of-focus highlights for the custom bokeh. | |
+| Raspberry pie | The in-focus subject of the custom bokeh photos. It is a real pie, the dessert, not a Raspberry Pi computer. | |
 
 <table>
   <tr>
@@ -301,10 +307,13 @@ An out-of-focus point of light takes the shape of the aperture. Every light behi
 becomes the shape the panel draws. A walk cycle on the panel gives one photo per frame. You load
 each shape as an image pattern since the app has no bokeh tab.
 [sprites/](App/Capturing/Ubuntu-System/sprites) holds the Link, Mario and Knight frames the
-group used. Each frame is a transparent character on black.
+group used. Each frame is a transparent character on black, redrawn from a video game. The
+[Credits](#credits) name the games.
 
 1. Stand a string of small lights behind the subject and focus the lens on the subject.
-   The lights must blur.
+   The lights must blur. The group's subject was a raspberry pie: a real one, the dessert, not a
+   Raspberry Pi computer. The report puts it 216 mm from the sensor with the lights 1 to 1.5 m
+   behind it. The group did not record those distances with the photos, so measure them next time.
 2. Open the iris. Set ISO 100 and 5 s on M.
 3. Set Pupil mm to the stop the panel makes: 9.5 mm in front of the lens or 5.5 mm inside the
    tube.
@@ -317,6 +326,8 @@ group used. Each frame is a transparent character on black.
    ```
 
 5. Move the panel into the tube and repeat with `--diameter 5.5`.
+
+<p align="center"><img src="Hardware-Modifications/images/bokeh_setup_diagram.png" width="80%" alt="Side view of the custom bokeh setup: the camera focuses on a raspberry pie and each fairy light behind it blurs into the shape of the panel pattern"><br><sub>The custom bokeh setup from the side. The camera focuses on the raspberry pie, which images to a sharp point. Each fairy light behind it blurs into the shape of the panel pattern. Not to scale.</sub></p>
 
 ### Flutter shutter
 
@@ -567,6 +578,21 @@ https://github.com/j-passmore/mech5720-2026-Dynamic-Aperture-Using-LCD
    camera using LCoS," in *Proc. ECCV*, LNCS vol. 6316, 2010, pp. 337-350.
    [doi:10.1007/978-3-642-15567-3_25](https://doi.org/10.1007/978-3-642-15567-3_25)
 
+## Credits
+
+The custom bokeh sprites are redrawn from video games. The characters belong to their rights
+holders. The group redrew each frame at 8 to 33 pixels as a binary mask for study and does not
+claim the designs. [The sprites README](App/Capturing/Ubuntu-System/sprites/README.md) lists every
+frame and where it came from.
+
+| Character | Game | Developer and year |
+| --- | --- | --- |
+| Mario | Super Mario Bros. | Nintendo, 1985 |
+| Link | The Legend of Zelda | Nintendo, 1986 |
+| Knight | Realm of the Mad God | Wild Shadow Studios and Spry Fox, 2010 |
+| Terraria miner, not used in the report | Terraria | Re-Logic, 2011 |
+
 ## Licence
 
-The [MIT Licence](LICENSE) covers this repository.
+The [MIT Licence](LICENSE) covers the code and the group's own photographs in this repository. It
+does not cover the game artwork in the sprites.

@@ -21,6 +21,11 @@ with the lens at 53 to 55 mm and its iris open. The file names read
 `<pattern>_<pupil>mm_offset_<offset>mm`, which the group typed by hand. No manifest sits beside
 the photos. `inside_lens/` also holds one Mario photo at a 10 mm pupil.
 
+The subject was a raspberry pie, a real one, the dessert, not a Raspberry Pi computer. A string of
+fairy lights stood behind it. The sprites come from Super Mario Bros., The Legend of Zelda and
+Realm of the Mad God. [The sprites README](../../Capturing/Ubuntu-System/sprites/README.md) credits
+them.
+
 ## What the script does
 
 The script develops each CR2 at half size with the camera's white balance. It cuts the same

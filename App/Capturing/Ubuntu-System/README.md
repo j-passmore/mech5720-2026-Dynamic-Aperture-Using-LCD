@@ -84,7 +84,9 @@ the same for a 5 x 5 grid. `python patterns.py` writes every named pattern to `o
 An image pattern is any PNG or GIF the server can read, given by its path. [sprites/](sprites)
 holds the character animations the custom bokeh used. [make_sprites.py](sprites/make_sprites.py)
 beside them draws Link, Mario, a Knight and a Terraria miner from character grids as 128 x 160
-frames, one PNG per frame and a looping GIF. The `binary` set is a transparent character on
+frames, one PNG per frame and a looping GIF. The characters come from Super Mario Bros., The
+Legend of Zelda, Realm of the Mad God and Terraria; [the sprites README](sprites/README.md)
+credits them. The `binary` set is a transparent character on
 black. The `grey` set shuts some regions at mid grey instead. In an image with transparency, the
 transparent pixels are open like clear glass. Every opaque pixel is shut, black and grey alike.
 In an image with no transparency, white is open. The image's longest side spans the pupil
