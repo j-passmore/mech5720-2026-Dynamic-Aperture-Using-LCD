@@ -78,7 +78,7 @@ processing.
 | --- | --- |
 | [App/Capturing/Ubuntu-System](App/Capturing/Ubuntu-System) | The folder holds the capture app: the server, the window, the command line client, the Arduino sketch, the masks and the sprites. [Its README](App/Capturing/Ubuntu-System/README.md) is the app manual. |
 | [App/Capturing/Windows-System](App/Capturing/Windows-System) | The folder holds the Windows tools that took the depth photos: the camera trigger, the mask sender and its Arduino sketch. [Its README](App/Capturing/Windows-System/README.md) lists them. |
-| [App/Processing/I-Depth_Estimation](App/Processing/I-Depth_Estimation) | The folder holds the calibration and the two depth methods, pixel by pixel and vertical strip, with [their README](App/Processing/I-Depth_Estimation/README.md). |
+| [App/Processing/I-Depth_Estimation](App/Processing/I-Depth_Estimation) | The folder holds the calibration, the pixel by pixel depth method and the vertical strip depth step that the vertical strip reconstruction runs, with [their README](App/Processing/I-Depth_Estimation/README.md). |
 | [App/Processing/II-Post_Capture_Reconstruction](App/Processing/II-Post_Capture_Reconstruction) | The folder holds the scripts that recover an all-in-focus image with each depth method, with [their README](App/Processing/II-Post_Capture_Reconstruction/README.md). |
 | [App/Processing/III-Custom_Bokeh](App/Processing/III-Custom_Bokeh) | The folder holds the script that draws the bokeh figures and GIFs, with [its README](App/Processing/III-Custom_Bokeh/README.md). |
 | [App/Processing/IV-Flutter_Shutter](App/Processing/IV-Flutter_Shutter) | The folder holds the scripts that deblur and score the flutter photos and draw the key figures, with [their README](App/Processing/IV-Flutter_Shutter/README.md). |
@@ -326,14 +326,13 @@ its own location. The folder READMEs hold the detail of each method.
 
 The scripts read the dark frames, the PSFs and the scene pairs in
 [Captures/Depth_Estimation_and_Reconstruction](Captures/Depth_Estimation_and_Reconstruction).
-`calibrate.py` runs first since both methods use its PSF pairs.
+`calibrate.py` runs first since every depth and reconstruction script uses its PSF pairs.
 
 ```bash
 cd App/Processing/I-Depth_Estimation
 .venv/bin/python calibrate.py --allow-saturated
 .venv/bin/python psf_fourier.py
 .venv/bin/python pixel_by_pixel_method/estimate_depth.py
-.venv/bin/python vertical_strip_method/estimate_depth.py
 ```
 
 | Result | File in `Out/Depth_Estimation/` |
@@ -344,7 +343,6 @@ cd App/Processing/I-Depth_Estimation
 | The pixel by pixel depth map on its own | `pixel_by_pixel_method/depth_map.png` |
 | The confident pixels on their own | `pixel_by_pixel_method/depth_map_confident.png` |
 | The mask 1 photo on its own | `pixel_by_pixel_method/captured_mask1.png` |
-| The vertical strip depth map | `vertical_strip_method/depth_steps.png` |
 
 ![The photo through mask 1, the distance the pixel by pixel method picked for each pixel, the
 pixels it trusts and the all-in-focus image](Out/Depth_Estimation/pixel_by_pixel_method/depth_heatmap.png)
@@ -356,8 +354,10 @@ same deblur.*
 
 ### II. Post-capture reconstruction
 
-The scripts read the same photos as depth estimation. They also read the depth map of each method.
-Run the depth estimation block first.
+The scripts read the same photos as depth estimation. The pixel by pixel script reads the depth map
+from the depth estimation block, so run that block first. The vertical strip script runs
+`I-Depth_Estimation/vertical_strip_method/estimate_depth.py` for its own depth map when the map is
+missing.
 
 ```bash
 cd App/Processing/II-Post_Capture_Reconstruction

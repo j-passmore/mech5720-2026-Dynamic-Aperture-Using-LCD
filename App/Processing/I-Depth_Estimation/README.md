@@ -12,7 +12,9 @@ python3 -m venv .venv
 
 The group tried two methods on the same photos. Emma wrote the pixel by pixel method after Zhou,
 Lin and Nayar. Jayden wrote the vertical strip method. Both read the calibration that
-`calibrate.py` builds.
+`calibrate.py` builds. The depth results use the pixel by pixel method. The vertical strip
+reconstruction script in [II-Post_Capture_Reconstruction](../II-Post_Capture_Reconstruction) runs
+the vertical strip method for its depth map.
 
 | Script | What it does |
 | --- | --- |
@@ -28,15 +30,17 @@ The scripts in [II-Post_Capture_Reconstruction](../II-Post_Capture_Reconstructio
 
 ## Running the scripts
 
-Run the calibration once and then either method. Each script finds its folders from its own
-location. You can run it from any folder:
+Run the calibration once and then the pixel by pixel method. Each script finds its folders from
+its own location. You can run it from any folder:
 
 ```bash
 .venv/bin/python calibrate.py --allow-saturated
 .venv/bin/python psf_fourier.py
 .venv/bin/python pixel_by_pixel_method/estimate_depth.py
-.venv/bin/python vertical_strip_method/estimate_depth.py
 ```
+
+`vertical_strip_method/estimate_depth.py` runs on its own too. The vertical strip reconstruction
+script runs it when its depth map is missing.
 
 | Script | Writes to `Out/Depth_Estimation/` |
 | --- | --- |
