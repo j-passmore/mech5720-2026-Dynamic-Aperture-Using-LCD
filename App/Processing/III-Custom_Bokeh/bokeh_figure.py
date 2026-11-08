@@ -7,7 +7,7 @@ the pattern the panel showed, with one column per pattern and one row per panel 
 It turns each cut 90 degrees anticlockwise so the lights face the same way as the pattern.
 It mirrors the cuts from in front of the lens left to right, where the lights came out
 reversed. It also writes a looping GIF per character and panel position from the full
-frames. Each GIF plays the walk cycle as the camera recorded it.
+frames. Each GIF plays the walk cycle as the camera recorded it, less any frame in GIF_SKIP.
 
 Every highlight carries a fine mesh, the panel's pixel grid. The script measures its pitch
 from the spectrum of the cut in full-size sensor pixels. It writes the pitch and the tilt of
@@ -66,6 +66,10 @@ MASKS_SHOWN = [("levin", "Levin"), ("nayar", "Nayar"), ("zhou_a", "Zhou A"), ("z
 GIFS = {"knight": ["knight_binary_walk_1", "knight_binary_walk_2"],
         "link": ["link_binary_attack_1", "link_binary_attack_2"],
         "mario": ["mario_binary_walk_1", "mario_binary_walk_2", "mario_binary_walk_3"]}
+# frames left out of the GIF of one position. The camera moved a little between the second and
+# third Mario photos in front of the lens, so that third frame jumps in the loop. The figure
+# still shows it, because the lights are cut from the same square
+GIF_SKIP = {"outside_lens": {"mario_binary_walk_3"}}
 # <stem>_<pupil mm>mm_offset_<offset>mm, as the team named the photos
 NAME = re.compile(r"^(?P<stem>.+?)_(?P<pupil>\d+(?:\.\d+)?)mm_offset_(?P<offset>[\d-]+)mm$")
 CROP = 850            # the side of the square cut, in half-size px
@@ -214,7 +218,8 @@ def gifs(series, out_dir):
     for folder, _, _ in POSITIONS:
         s = series[folder]
         for name, stems in GIFS.items():
-            frames = [Image.fromarray(to_u8(s["items"][st]["frame"], s["frame_gain"])) for st in stems if st in s["items"]]
+            frames = [Image.fromarray(to_u8(s["items"][st]["frame"], s["frame_gain"]))
+                      for st in stems if st in s["items"] and st not in GIF_SKIP.get(folder, set())]
             if len(frames) < 2:
                 continue
             path = out_dir / f"{name}_{folder}.gif"

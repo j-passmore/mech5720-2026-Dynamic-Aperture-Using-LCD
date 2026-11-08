@@ -1,0 +1,42 @@
+% Banner for the top of the repository README, after the title slide of the group's talk.
+% 24 cm x 8 cm; render at 100 px per cm:
+%   latexmk -pdf banner.tex && pdftoppm -r 254 -scale-to-x 2400 -scale-to-y 800 -png -singlefile banner.pdf banner
+% The four photographs are the group's own captures: the barcode after post-capture refocus, the desk scene
+% through coded mask 1, the fairy lights shaped by the panel with the raspberry pie beside them, and the
+% toy car through the flutter shutter code. panels/ holds the crops.
+\documentclass[tikz, border=0pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[lining]{montserrat}   % Montserrat Black for the title
+\usepackage{helvet}               % Helvetica Narrow Bold for the small lines
+\usepackage[tracking=true]{microtype}
+\usepackage{graphicx}
+
+\definecolor{paper}{HTML}{F1EFEA}
+\definecolor{inkblack}{HTML}{111111}
+\newcommand{\narrowbold}{\fontfamily{phv}\fontseries{bc}\selectfont}
+\newcommand{\titleblack}{\fontfamily{Montserrat-TLF}\fontseries{black}\selectfont}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm, y=1cm]
+\path[use as bounding box] (0,0) rectangle (24,8);
+\fill[paper] (0,0) rectangle (24,8);
+
+% ---- four photographs, butted together, 5.7 cm x 3.45 cm each ----
+\foreach \file [count=\i from 0] in {1_refocus_barcode, 2_depth_scene, 3_bokeh_lights, 4_flutter_car} {
+  \node[anchor=south west, inner sep=0] at ({0.6+5.7*\i},4.1)
+    {\includegraphics[width=5.7cm, height=3.45cm]{panels/\file.jpg}};}
+
+% ---- the line under the photographs ----
+\begin{scope}[font=\narrowbold\fontsize{11}{12}\selectfont, text=inkblack]
+  \node[anchor=base west, inner sep=0] at (0.6,3.55) {MAJOR PROJECT};
+  \node[anchor=base,      inner sep=0] at (12,3.55)  {GROUP 08};
+  \node[anchor=base east, inner sep=0] at (23.4,3.55) {MECH5720};
+\end{scope}
+
+% ---- title, scaled to the full width, and the tracked subtitle under it ----
+\node[anchor=south west, inner sep=0] at (0.6,1.25)
+  {\resizebox{22.8cm}{!}{\titleblack\color{inkblack}DYNAMIC APERTURE}};
+\node[anchor=south west, inner sep=0] at (0.6,0.6)
+  {\resizebox{22.8cm}{!}{\narrowbold\color{inkblack}\textls[300]{USING TRANSMISSIVE LIQUID CRYSTAL DISPLAY CONTROL}}};
+\end{tikzpicture}
+\end{document}

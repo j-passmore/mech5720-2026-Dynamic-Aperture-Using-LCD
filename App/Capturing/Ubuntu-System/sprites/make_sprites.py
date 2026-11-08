@@ -1,7 +1,9 @@
 """Generate sprite animations as aperture frames for the 128 x 160 panel.
 
-Link, Mario, the Knight (Realm of the Mad God) and a Terraria miner are written
-as character grids. Each animation is written in two variants:
+Link (The Legend of Zelda, Nintendo, 1986), Mario (Super Mario Bros., Nintendo, 1985), the
+Knight (Realm of the Mad God, Wild Shadow Studios and Spry Fox, 2010) and a Terraria (Re-Logic,
+2011) miner are written as character grids. The artwork belongs to the rights holders; the grids
+are low-resolution redraws for study. Each animation is written in two variants:
 
     binary   transparent sprite on an opaque black background
     grey     the same, with some sprite regions at mid-grey (128, 128, 128)

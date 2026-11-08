@@ -1,6 +1,8 @@
 <div align="center">
 
-# Dynamic Aperture Control with a Transmissive Liquid Crystal Display
+<img src="assets/banner/banner.png" width="100%" alt="MECH5720 2026: Dynamic Aperture using transmissive liquid crystal display control. Four photographs from the project: a barcode after post-capture refocus, the desk scene through coded mask 1, fairy lights shaped by the panel beside the raspberry pie, and the toy car through the flutter shutter code.">
+
+# MECH5720 2026: Dynamic Aperture Control with a Transmissive Liquid Crystal Display
 
 **A 1.8 inch LCD panel and an Arduino Uno give a Canon EOS 60D a programmable aperture and a
 coded shutter.**
@@ -22,7 +24,8 @@ MECH5720 Computational Imaging · The University of Sydney · 2026
 [![Last commit](https://img.shields.io/github/last-commit/j-passmore/mech5720-2026-Dynamic-Aperture-Using-LCD?style=flat-square)](https://github.com/j-passmore/mech5720-2026-Dynamic-Aperture-Using-LCD/commits/main)
 
 [Layout](#repository-layout) · [Parts](#parts-list) · [Build](#build) · [Setup](#laptop-setup) ·
-[Capture](#capture-procedure) · [Figures](#regenerating-the-figures) · [Pitfalls](#known-pitfalls)
+[Capture](#capture-procedure) · [Figures](#regenerating-the-figures) · [Pitfalls](#known-pitfalls) ·
+[Credits](#credits)
 
 <table>
   <tr>
@@ -68,7 +71,7 @@ processing.
 | Experiment | Panel role | Status |
 | --- | --- | --- |
 | [Depth estimation](#depth-estimation) | The panel shows the coded aperture pair of Zhou, Lin and Nayar. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
-| [Post-capture refocus](#post-capture-refocus) | The panel opens one tile of the aperture per photo in a 3x3 or 5x5 scan. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
+| [Post-capture refocus](#post-capture-refocus) | The panel shows the same coded pair. The script refocuses the scene from the two photos and the depth map. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
 | [Custom bokeh](#custom-bokeh) | The panel draws the shape every out-of-focus light takes. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
 | [Flutter shutter](#flutter-shutter) | The panel plays a 32-chop binary code inside one exposure. | ![Complete](https://img.shields.io/badge/complete-2EA44F?style=flat-square) |
 
@@ -85,6 +88,8 @@ processing.
 | [Captures](Captures) | The folder holds the raw photos in one subfolder per experiment. The bokeh and flutter subfolders hold photos. The depth and reconstruction scripts share `Captures/Depth_Estimation_and_Reconstruction/`, which holds the dark frames, the PSFs and the scene pair. |
 | [Out](Out) | The folder holds what the scripts write in one subfolder per experiment. |
 | [Hardware-Modifications](Hardware-Modifications) | The folder holds photos of the parts. |
+| [assets/banner](assets/banner) | The folder holds the banner at the top of this page: the TikZ source, the four photo crops and the renders. `latexmk -pdf banner.tex` in that folder rebuilds it. |
+| [report](report) | The folder holds the submitted report as a PDF. |
 
 ## Parts list
 
@@ -100,6 +105,7 @@ processing.
 | Desk lamp on a direct current supply | The lamp lights the target. Mains lamps flicker at 100 Hz. | |
 | Toy car with "95" on its side | The car is the moving target for the flutter shutter. | |
 | String of small lights | The lights are the out-of-focus highlights for the custom bokeh. | |
+| Raspberry pie | The in-focus subject of the custom bokeh photos. It is a real pie, the dessert, not a Raspberry Pi computer. | |
 
 <table>
   <tr>
@@ -115,7 +121,24 @@ processing.
 ## Build
 
 1. Take the backlight off the panel. Light then passes through the glass. The LITE pin stays
-   unconnected.
+   unconnected. The four photos below show the steps: the panel as supplied, the cell lifted off
+   its backlight, the bare cell, and the reflector and diffuser sheets coming off. The polariser
+   and the colour filter stay on the cell, which is why the clear state still costs light.
+
+   <table>
+     <tr>
+       <td align="center" width="25%"><img src="Hardware-Modifications/images/01_panel_as_supplied.jpeg" alt="The Adafruit 1.8 inch panel as supplied"></td>
+       <td align="center" width="25%"><img src="Hardware-Modifications/images/02_lifting_cell_off_backlight.jpeg" alt="Lifting the LCD cell off its backlight"></td>
+       <td align="center" width="25%"><img src="Hardware-Modifications/images/03_separated_cell.jpeg" alt="The separated LCD cell"></td>
+       <td align="center" width="25%"><img src="Hardware-Modifications/images/04_removing_reflector_and_diffuser.jpeg" alt="Removing the reflector and diffuser sheets"></td>
+     </tr>
+     <tr>
+       <td align="center"><sub>As supplied</sub></td>
+       <td align="center"><sub>Cell lifted off the backlight</sub></td>
+       <td align="center"><sub>The bare cell</sub></td>
+       <td align="center"><sub>Reflector and diffuser off</sub></td>
+     </tr>
+   </table>
 2. Wire the panel to the Uno with seven jumper wires. The breakout has its own regulator and
    level shifter. It takes 5 V on Vin and on the logic pins. SCK and MOSI are the Uno's
    hardware SPI pins. CS, D/C and RST are defines at the top of the sketch. Any output pin will
@@ -151,7 +174,19 @@ processing.
 4. Mount the panel in one of two places. In front of the lens, tape the panel flat against the
    front of the lens with the glass across the beam. Inside the tube, cut a slot through the side
    of the extension tube, fit the tube between the lens and the body and slide the panel in
-   through the slot.
+   through the slot. The photo shows the rig with the panel in front of the lens, and the diagram
+   the two positions.
+
+   <table>
+     <tr>
+       <td align="center" width="50%"><img src="Hardware-Modifications/images/rig_panel_in_front_of_lens.jpeg" alt="The rig: the panel taped to the front of the lens, the Uno, the lamp and the toy car"></td>
+       <td align="center" width="50%"><img src="Hardware-Modifications/images/panel_positions_diagram.png" alt="Side view of the two panel positions: in front of the lens and in the slot of the extension tube"></td>
+     </tr>
+     <tr>
+       <td align="center"><sub>The panel taped to the front of the lens, with the Uno, the lamp and the toy car for the flutter shutter.</sub></td>
+       <td align="center"><sub>The two panel positions, in front of the lens and inside the slotted extension tube. Not to scale.</sub></td>
+     </tr>
+   </table>
 5. Check the panel through the lens once the laptop is set up.
    [Running the rig](#running-the-rig) lists the three checks.
 
@@ -252,12 +287,19 @@ the rest.
 
 Patterns A and B start as `zhou_a` and `zhou_b`, the coded pair of Zhou, Lin and Nayar.
 
+> [!NOTE]
+> The depth photos in `Captures/` did not come from this app. Emma took them on a Windows laptop
+> with [the Windows tools](App/Capturing/Windows-System/README.md): `send_pattern.py` put the
+> 33 x 33 masks `coded_apertures/depth_1_33x33.png` and `depth_2_33x33.png` on the panel and
+> `capture_photo.py` fired the camera at 2 s, ISO 200 and f/5 with the lens at 34 mm. The torch
+> stood 350, 438, 473, 593 and 903 mm from the panel for the PSFs (`distances.yaml`). The app's
+> `zhou_a` and `zhou_b` are 13 x 13 versions of the same pair; the bokeh photos used those.
+
 ### Post-capture refocus
 
-- **Scan 3x3** and **Scan 5x5** take open, every tile, black and open.
-- **f/5.6 frame** takes one photo through an open disc 8.9 mm wide as the one-photo baseline.
-- **Lens focus** pauses for you to focus the lens on the target by hand. It then takes the
-  in-focus reference.
+Refocus uses the depth pair, so it needs no extra photos. The app's **Scan 3x3** and **Scan 5x5**
+buttons take a sub-aperture scan, **f/5.6 frame** an open-disc baseline and **Lens focus** an
+in-focus reference. The report does not use them.
 
 ### Custom bokeh
 
@@ -265,10 +307,13 @@ An out-of-focus point of light takes the shape of the aperture. Every light behi
 becomes the shape the panel draws. A walk cycle on the panel gives one photo per frame. You load
 each shape as an image pattern since the app has no bokeh tab.
 [sprites/](App/Capturing/Ubuntu-System/sprites) holds the Link, Mario and Knight frames the
-group used. Each frame is a transparent character on black.
+group used. Each frame is a transparent character on black, redrawn from a video game. The
+[Credits](#credits) name the games.
 
 1. Stand a string of small lights behind the subject and focus the lens on the subject.
-   The lights must blur.
+   The lights must blur. The group's subject was a raspberry pie: a real one, the dessert, not a
+   Raspberry Pi computer. The report puts it 216 mm from the sensor with the lights 1 to 1.5 m
+   behind it. The group did not record those distances with the photos, so measure them next time.
 2. Open the iris. Set ISO 100 and 5 s on M.
 3. Set Pupil mm to the stop the panel makes: 9.5 mm in front of the lens or 5.5 mm inside the
    tube.
@@ -281,6 +326,8 @@ group used. Each frame is a transparent character on black.
    ```
 
 5. Move the panel into the tube and repeat with `--diameter 5.5`.
+
+<p align="center"><img src="Hardware-Modifications/images/bokeh_setup_diagram.png" width="80%" alt="Side view of the custom bokeh setup: the camera focuses on a raspberry pie and each fairy light behind it blurs into the shape of the panel pattern"><br><sub>The custom bokeh setup from the side. The camera focuses on the raspberry pie, which images to a sharp point. Each fairy light behind it blurs into the shape of the panel pattern. Not to scale.</sub></p>
 
 ### Flutter shutter
 
@@ -311,7 +358,15 @@ python capture_series.py --code designed --chop 100 --label coded --outdir captu
 ## Regenerating the figures
 
 Each experiment has a processing folder that turns its raw photos in `Captures/` into its main
-results in `Out/`. Set up the venv of each folder once:
+results in `Out/`. One command runs all of them:
+
+```bash
+./reproduce.sh
+```
+
+It builds one venv from the root `requirements.txt` and writes every figure to `Out/` in about
+three minutes. It needs Python 3.9 or newer; the group tested 3.13. To run one experiment on its
+own, set up the venv of its folder once and use the block below:
 
 ```bash
 cd App/Processing/<folder>
@@ -321,6 +376,20 @@ python3 -m venv .venv
 
 Each block below starts from the repository root. Every script finds `Captures/` and `Out/` from
 its own location. The folder READMEs hold the detail of each method.
+
+### What the report shows that this repository cannot regenerate
+
+- **The flutter shutter table** (gain of the coded photo over the box and impulse photos, in dB)
+  needs the box and impulse photos of each run and the saved scores. `Captures/Flutter_Shutter/`
+  holds the reference and coded photos only, so `flutter_figure.py` rebuilds the figures and the
+  MSE of each coded deblur but not the table.
+- **The behind-the-lens depth and refocus figures** (the barcode scene at 90 and 130 mm, the
+  column-wise depth map and the PSF pairs at 90 to 210 mm) came from captures that are not in
+  `Captures/`. The depth scripts here run on the front-of-lens scene pair.
+- **The bokeh scores** (normalised cross-correlation against the displayed pattern, an open disc
+  and the other ten patterns) come from
+  [App/Processing/III-Custom_Bokeh/ncc](App/Processing/III-Custom_Bokeh/ncc), which reads the
+  same raw photos as `bokeh_figure.py`.
 
 ### I. Depth estimation
 
@@ -396,6 +465,16 @@ cd App/Processing/III-Custom_Bokeh
 | The walk cycle as the lights show it | `<character>_outside_lens.gif` and `<character>_inside_lens.gif` |
 | The mesh pitch in each photo | `highlights.csv` |
 
+The front-of-lens Mario GIF plays two of the three walk frames. The camera moved a little
+between the second and third photos, so the third frame jumped in the loop; `GIF_SKIP` at the top
+of the script leaves it out. The figure still shows all three frames, cut from the same square.
+
+The scores in the report come from the scripts in [ncc/](App/Processing/III-Custom_Bokeh/ncc),
+which locate five lights per panel position and score each light against the displayed pattern,
+an open disc and the other ten patterns by normalised cross-correlation.
+[Its README](App/Processing/III-Custom_Bokeh/ncc/README.md) lists the commands and what each
+number means.
+
 ![Seven sprite frames on the panel and the lights they shaped, with the panel in front of the
 lens and behind the lens](Out/Custom_Bokeh/bokeh_sprites.png)
 
@@ -467,6 +546,22 @@ tube.*
   photo by about 5 percent. The scripts read the CR2 instead.
 - **The server** rejects a board on another protocol version. Upload the sketch again after
   every pull that changes it.
+- **The app's default pupil** (`FOCAL_MM` and `F_NUMBER` in `config.py`) describes a 50 mm f/1.8
+  lens, which the group did not use. Pass `--diameter` (9.5 mm in front of the lens, 5.5 mm in the
+  tube with the 18-55 mm zoom wide open) or change the two constants.
+- **Python 3.9 or newer** is needed; the scripts use `str.removesuffix`. The group ran 3.13.
+
+## Report and citation
+
+The report, *Dynamic Aperture Control with a Transmissive Liquid Crystal Display*, is the MECH5720
+major project report of this group (The University of Sydney, 2026). It is submitted through
+Canvas; a copy sits in [report/](report/) once the group adds it. Cite the repository as:
+
+```
+MECH5720 dynamic aperture group, "mech5720-2026-Dynamic-Aperture-Using-LCD: a 1.8 inch LCD as a
+programmable aperture and coded shutter," GitHub repository, The University of Sydney, 2026.
+https://github.com/j-passmore/mech5720-2026-Dynamic-Aperture-Using-LCD
+```
 
 ## References
 
@@ -483,6 +578,21 @@ tube.*
    camera using LCoS," in *Proc. ECCV*, LNCS vol. 6316, 2010, pp. 337-350.
    [doi:10.1007/978-3-642-15567-3_25](https://doi.org/10.1007/978-3-642-15567-3_25)
 
+## Credits
+
+The custom bokeh sprites are redrawn from video games. The characters belong to their rights
+holders. The group redrew each frame at 8 to 33 pixels as a binary mask for study and does not
+claim the designs. [The sprites README](App/Capturing/Ubuntu-System/sprites/README.md) lists every
+frame and where it came from.
+
+| Character | Game | Developer and year |
+| --- | --- | --- |
+| Mario | Super Mario Bros. | Nintendo, 1985 |
+| Link | The Legend of Zelda | Nintendo, 1986 |
+| Knight | Realm of the Mad God | Wild Shadow Studios and Spry Fox, 2010 |
+| Terraria miner, not used in the report | Terraria | Re-Logic, 2011 |
+
 ## Licence
 
-The [MIT Licence](LICENSE) covers this repository.
+The [MIT Licence](LICENSE) covers the code and the group's own photographs in this repository. It
+does not cover the game artwork in the sprites.

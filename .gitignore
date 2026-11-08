@@ -17,3 +17,9 @@ Out/**/settings.json
 !Out/Depth_Estimation/pixel_by_pixel_method/depth_heatmap.png
 !Out/Depth_Estimation/pixel_by_pixel_method/depth_map.png
 !Out/Post_Capture_Reconstruction/pixel_by_pixel_method/reconstruction_comparison.png
+
+# the venv reproduce.sh builds, and Python caches
+.venv/
+__pycache__/
+!Out/Custom_Bokeh/ncc/bokeh_results.png
+!Out/Custom_Bokeh/ncc/bokeh_ncc.png

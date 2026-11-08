@@ -21,6 +21,11 @@ with the lens at 53 to 55 mm and its iris open. The file names read
 `<pattern>_<pupil>mm_offset_<offset>mm`, which the group typed by hand. No manifest sits beside
 the photos. `inside_lens/` also holds one Mario photo at a 10 mm pupil.
 
+The subject was a raspberry pie, a real one, the dessert, not a Raspberry Pi computer. A string of
+fairy lights stood behind it. The sprites come from Super Mario Bros., The Legend of Zelda and
+Realm of the Mad God. [The sprites README](../../Capturing/Ubuntu-System/sprites/README.md) credits
+them.
+
 ## What the script does
 
 The script develops each CR2 at half size with the camera's white balance. It cuts the same
@@ -36,8 +41,10 @@ scales each photo row to its own brightest light. You can then compare the rows 
 size alone.
 
 The script writes `bokeh_sprites.png`, `bokeh_masks.png`, one GIF per character and panel position and
-`highlights.csv`. The GIFs play each walk cycle as the lights show it, three frames for Mario and
-two each for the Knight and Link.
+`highlights.csv`. The GIFs play each walk cycle as the lights show it, three frames for Mario behind the lens and
+two each for the Knight, Link and Mario in front of the lens. The camera moved a little between
+the second and third Mario photos in front of the lens, so `GIF_SKIP` leaves that frame out of the
+GIF; the figure still shows it.
 
 ![The three Mario walk frames as the lights show them, with the panel in front of the
 lens](../../../Out/Custom_Bokeh/mario_outside_lens.gif)
